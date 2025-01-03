@@ -1,12 +1,18 @@
+"use client";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Header = () => {
+  const router = useRouter();
   return (
     <header className="bg-white ">
-      <div className="mx-auto px-4 py-6 pl-10 xl:px-20  lg:flex lg:justify-between sm:grid sm:grid-cols-1 sm:grid-rows-2 sm:justify-center sm:items-center">
+      <div className="mx-auto px-4 py-6 pl-10 xl:px-20  lg:flex lg:justify-between sm:grid sm:grid-cols-1 sm:grid-rows-2 sm:justify-center sm:items-center cursor-pointer">
         <img
+          onClick={() => {
+            router.push("/");
+          }}
           className="max-w-[140px]"
           src="/img/general/logoDark.png"
           alt="logo"
@@ -19,7 +25,7 @@ const Header = () => {
               src="/img/general/earth.png"
               alt="earth"
             />
-            <a href="#" className="text-gray-600 hover:text-blue-500">
+            <a href="/agents" className="text-gray-600 hover:text-blue-500">
               For Agents
             </a>
           </div>

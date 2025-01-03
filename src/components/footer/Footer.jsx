@@ -3,7 +3,7 @@ import { FaWhatsapp } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0d2445] text-white py-8">
+    <footer className="bg-[#093258] text-white py-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap flex-col md:flex-row sm:mr-4 justify-between">
           <div className="w-1/2 md:w-1/3 mb-6 md:mb-0">
@@ -11,10 +11,7 @@ const Footer = () => {
             <h2 className="text-xl font-bold mb-2">Address</h2>
             <div className="mb-4">
               <h3 className="font-semibold">Bengaluru</h3>
-              <p>
-                BHIVE Workspace - No.112, AKR Tech Park, "B" and, 7th Mile Hosur
-                Rd Krishna Reddy Industrial Area, Bengaluru, Karnataka 560068
-              </p>
+              <p>Travelidea, XYZ Street, New Delhi, India</p>
             </div>
             <hr className="w-48 h-1 my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700" />
 

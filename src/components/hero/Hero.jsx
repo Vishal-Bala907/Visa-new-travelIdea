@@ -5,6 +5,15 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin", "latin-ext"],
+  weight: ["800"],
+});
+
+import "../../../public/fonts/fonts-css/nexa.css";
+
 const Hero = () => {
   const [upperText, setUpperText] = useState({
     text: "smart",
@@ -69,7 +78,7 @@ const Hero = () => {
             India’s most loved visa platform ❤️
           </h1>
           <div className="relative flex justify-center text-3xl font-bold md:justify-start md:text-5xl">
-            <div className="w-full text-[#252D3C]">
+            <div className="NEXA-BOLD w-full text-[#252D3C]">
               <span>
                 Visas made{" "}
                 <b

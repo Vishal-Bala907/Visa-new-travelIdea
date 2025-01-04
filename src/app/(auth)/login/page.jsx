@@ -1,6 +1,28 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { loginHandler } from "../../../components/server/register";
+import { toast } from "react-toastify";
 
 const page = () => {
+  const [mobileNumber, setNumber] = useState("");
+  const makeUserLogin = (e) => {
+    e.preventDefault();
+    if (!/^\d{10}$/.test(mobileNumber)) {
+      toast.error("Please enter a valid 10-digit mobile number", {
+        position: "top-center",
+      });
+      return;
+    }
+    loginHandler({ mobileNumber })
+      .then((data) => {
+        localStorage.setItem("token", JSON.stringify(data.token));
+        localStorage.setItem("user", JSON.stringify(data));
+        toast.success("Login successful", { position: "top-center" });
+      })
+      .catch((err) => {
+        toast.error("Unable to log in", { position: "top-center" });
+      });
+  };
   return (
     <section className="h-[100vh] flex items-center justify-center bg-[#F5F9FF] xxxs:flex-col-reverse xxxs:gap-8 xxxs:py-12 xxs:min-h-screen md:flex-row md:gap-x-6 md:px-12 lg:gap-x-12 lg:px-0 xl:gap-x-28">
       {/* <!-- Left Content --> */}
@@ -10,6 +32,7 @@ const page = () => {
             <p className="font-lexend">1,00,000+ people like you trust</p>
             <p>Teleport for their visa application</p>
           </div>
+          1{" "}
           <div className="flex gap-2 xxxs:hidden md:flex">
             <img
               src="/img/general/image71.svg"
@@ -87,7 +110,7 @@ const page = () => {
         <p className="mb-5 text-center text-sm text-slategray-200">
           Sign up/Login using your mobile number
         </p>
-        <form className="w-full">
+        <form className="w-full" onSubmit={makeUserLogin}>
           <div className="flex gap-3 rounded-lg border-2 bg-[#FAFBFC] p-2">
             <span className="flex items-center gap-2">
               <img src="/img/general/in.svg" alt="India" className="w-9" />
@@ -95,14 +118,18 @@ const page = () => {
             </span>
             <input
               type="number"
+              value={mobileNumber}
+              onChange={(e) => {
+                setNumber(e.target.value);
+              }}
               name="mobileNumber"
               placeholder="Enter your mobile number"
               className="w-full bg-transparent text-base outline-none pl-4"
             />
           </div>
-          <span className="block text-xs text-red-500 mt-2">
+          {/* <span className="block text-xs text-red-500 mt-2">
             Invalid Number
-          </span>
+          </span> */}
           <button
             type="submit"
             className="w-full mt-4 rounded-xl bg-blue-500 py-3 text-sm text-white"

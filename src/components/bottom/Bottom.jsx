@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { BiSolidPlaneTakeOff } from "react-icons/bi";
 import { FaSearch } from "react-icons/fa";

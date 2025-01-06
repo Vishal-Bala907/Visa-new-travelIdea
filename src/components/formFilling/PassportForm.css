@@ -1,0 +1,4 @@
+@media (max-width: 768px) {
+    .date-range-picker-container .rdrDateRangePickerWrapper {
+        flex-direction: column;
+    }}

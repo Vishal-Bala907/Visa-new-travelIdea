@@ -18,19 +18,7 @@ const StepsHeader = () => {
               </div>
             </span>
           </li>
-          {/* <li className="flex items-center after:mx-3 after:h-0.5 after:w-[12px] after:bg-lightgray-500 after:content-[''] ">
-            <span className="flex cursor-pointer items-center gap-2 max-md:flex-col ">
-              <div className="text-xs max-md:text-[9px]">
-                <span className="flex h-6 w-6 items-center justify-center rounded border font-lexend font-medium max-md:h-[18px] max-md:w-[18px]  border-lightgray-500 bg-whitesmoke-900 text-lightgray-500">
-                  2
-                </span>
-              </div>
-              <div className="whitespace-nowrap font-inter text-sm font-normal max-xl:text-[11px] sm:inline-flex text-neutral-light-n600">
-                <span className="hidden sm:inline-flex">Payment </span>
-                <span className="hidden max-sm:inline-flex">Payment </span>
-              </div>
-            </span>
-          </li> */}
+
           <li className="flex items-center after:mx-3 after:h-0.5 after:w-[12px] after:bg-lightgray-500 after:content-[''] ">
             <span className="flex cursor-pointer items-center gap-2 max-md:flex-col ">
               <div className="text-xs max-md:text-[9px]">
@@ -76,7 +64,7 @@ const StepsHeader = () => {
         className="to-green h-1 rounded bg-gradient-to-l from-lime-green"
         style={{
           width: "20%",
-          background: "linear-gradient(90deg, transparent, #44ff44);",
+          background: "linear-gradient(90deg, transparent, #44ff44)",
         }}
       ></div>
     </div>

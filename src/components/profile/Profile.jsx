@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -32,7 +33,9 @@ const variants = {
 const Profile = ({ showProfile, setShowProfile }) => {
   const [open, setOpen] = useState(showProfile); // Initially open the modal based on showProfile prop
 
-  const USER = JSON.parse(localStorage.getItem("user"));
+  const userName = useSelector((state) => state.user.name);
+  const email = useSelector((state) => state.user.email);
+  const phone = useSelector((state) => state.user.phone);
   const handleClose = () => setShowProfile(false);
 
   const handleUpdate = () => {
@@ -70,7 +73,7 @@ const Profile = ({ showProfile, setShowProfile }) => {
             label="Name"
             fullWidth
             margin="normal"
-            value={USER.userName}
+            value={userName}
             onChange={(e) => setName(e.target.value)}
           />
 
@@ -78,7 +81,7 @@ const Profile = ({ showProfile, setShowProfile }) => {
             label="Email"
             fullWidth
             margin="normal"
-            value={USER.email}
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
@@ -86,7 +89,7 @@ const Profile = ({ showProfile, setShowProfile }) => {
             label="WhatsApp Number"
             fullWidth
             margin="normal"
-            value={USER.number}
+            value={phone}
             onChange={(e) => setWhatsappNumber(e.target.value)}
           />
 

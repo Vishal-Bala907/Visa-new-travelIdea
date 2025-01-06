@@ -13,14 +13,14 @@ const page = () => {
       <div className="w-100 flex justify-center align-center my-10">
         <Steps />
       </div>
-      <IoPersonCircle
+      {/* <IoPersonCircle
         onClick={() => {
           setShowProfile(true);
         }}
-      />
-      {showProfile && (
+      /> */}
+      {/* {showProfile && (
         <Profile showProfile={showProfile} setShowProfile={setShowProfile} />
-      )}
+      )} */}
     </div>
   );
 };

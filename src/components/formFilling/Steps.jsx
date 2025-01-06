@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Fade from "@mui/material/Fade";
 import { step } from "./step";
+import PassportForm from "./PassportForm";
 
 export default function Steps() {
   const [expanded, setExpanded] = React.useState(false);
@@ -19,28 +20,13 @@ export default function Steps() {
 
   return (
     <div className="flex justify-center align-center w-[50%]  flex-col mx-w-[50%]">
-      {step.map((item, idx) => {
-        return (
-          <Accordion key={idx}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel2-content"
-              id="panel2-header"
-            >
-              <Typography component="span">
-                Default transition using Collapse
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        );
-      })}
+      {/* {step.map((item, idx) => { */}
+      {/* return ( */}
+      {/* <Accordion>
+        <PassportForm />
+      </Accordion> */}
+      {/* ); */}
+      {/* })} */}
     </div>
   );
 }

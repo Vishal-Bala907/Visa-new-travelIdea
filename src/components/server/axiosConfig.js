@@ -2,15 +2,12 @@ import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // Add an interceptor to include the bearer token in headers
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token"); // Get token from local storage
+    const token = JSON.parse(localStorage.getItem("token")); // Get token from local storage
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }

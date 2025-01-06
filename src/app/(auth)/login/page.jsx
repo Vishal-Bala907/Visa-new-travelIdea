@@ -2,9 +2,14 @@
 import React, { useState } from "react";
 import { loginHandler } from "../../../components/server/register";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../components/redux/slices/UserSlice";
 
 const page = () => {
   const [mobileNumber, setNumber] = useState("");
+  const router = useRouter();
+  const dispatch = useDispatch();
   const makeUserLogin = (e) => {
     e.preventDefault();
     if (!/^\d{10}$/.test(mobileNumber)) {
@@ -16,8 +21,16 @@ const page = () => {
     loginHandler({ mobileNumber })
       .then((data) => {
         localStorage.setItem("token", JSON.stringify(data.token));
-        localStorage.setItem("user", JSON.stringify(data));
+        dispatch(
+          loginUser({
+            name: data.userName,
+            email: data.email,
+            phone: data.number,
+            role: data.role,
+          })
+        );
         toast.success("Login successful", { position: "top-center" });
+        router.push("/");
       })
       .catch((err) => {
         toast.error("Unable to log in", { position: "top-center" });

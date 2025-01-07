@@ -13,13 +13,15 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Grid2,
 } from "@mui/material";
 // import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid2 from "@mui/material/Grid2";
 import { useForm, Controller } from "react-hook-form";
 import AddDocument from "./AddDocument";
 import AddVisaType from "./AddVisaType";
 import { useSelector } from "react-redux";
+import AutofillCountry from "./AutofillCountry"; // Import the AutofillCountry component
+import { addNewVisa } from "../server/admin/admin";
 
 const documentOptions = [
   "Passport Copy",
@@ -32,13 +34,16 @@ const documentOptions = [
   "Insurance Policy",
 ];
 
-// const visaTypeOptions = [
-//   "Tourist Visa",
-//   "Business Visa",
-//   "Student Visa",
-//   "Work Visa",
-//   "Transit Visa",
-// ];
+const tagOptions = [
+  "Tourism",
+  "Business",
+  "Student",
+  "Work",
+  "Medical",
+  "Transit",
+  "Family",
+  "Other",
+];
 
 const VisaForm = () => {
   const visaTypeOptions = useSelector((state) => state.visaType.visaType);
@@ -49,20 +54,51 @@ const VisaForm = () => {
   } = useForm();
   const [selectedDocuments, setSelectedDocuments] = useState([]);
   const [bannerImage, setBannerImage] = useState(null);
+  const [selectedTags, setSelectedTags] = useState("");
+  const [previewImageUrl, setPreviewImageUrl] = useState("");
 
   const onSubmit = (data) => {
-    const formData = {
-      ...data,
-      requiredDocuments: selectedDocuments,
-      bannerImage,
-    };
-    console.log("Form Data Submitted:", formData);
+    const formData = new FormData();
+    console.log(data.countryName.value);
+
+    // Append the form data values
+    formData.append("countryName", data.countryName.value);
+    formData.append("visaType", data.visaType);
+    formData.append("visaFee", data.visaFee);
+    formData.append("serviceFee", data.serviceFee);
+    formData.append("waitingTime", data.waitingTime);
+    formData.append("stayDuration", data.stayDuration);
+    formData.append("visaValidity", data.visaValidity);
+    formData.append("insuranceDetails", data.insuranceDetails);
+    formData.append("description", data.description);
+
+    // Append required documents and tags
+    selectedDocuments.forEach((doc) =>
+      formData.append("requiredDocuments", doc)
+    );
+    formData.append("selectedTags", selectedTags);
+
+    // Append the banner image
+    if (bannerImage) {
+      formData.append("bannerImage", bannerImage);
+    }
+
+    // Send the form data to the server
+    addNewVisa(formData)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setBannerImage(URL.createObjectURL(file));
+      setBannerImage(file);
+      const previewUrl = URL.createObjectURL(file);
+      setPreviewImageUrl(previewUrl);
     }
   };
 
@@ -74,8 +110,12 @@ const VisaForm = () => {
     );
   };
 
+  const handleTagChange = (event) => {
+    setSelectedTags(event.target.value);
+  };
+
   return (
-    <section className="flex justify-around align-center">
+    <section className="flex justify-around align-center flex-wrap">
       <section>
         <AddVisaType />
         <AddDocument />
@@ -96,22 +136,12 @@ const VisaForm = () => {
         </Typography>
 
         <Grid2 container spacing={3}>
-          {/* Country Name */}
+          {/* Country Name (AutofillCountry Integration) */}
           <Grid2 xs={12}>
-            <Controller
-              name="countryName"
+            <AutofillCountry
               control={control}
-              defaultValue=""
-              rules={{ required: "Country name is required" }}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Country Name"
-                  fullWidth
-                  error={!!errors.countryName}
-                  helperText={errors.countryName?.message}
-                />
-              )}
+              name="countryName"
+              errors={errors}
             />
           </Grid2>
 
@@ -156,6 +186,7 @@ const VisaForm = () => {
               render={({ field }) => (
                 <TextField
                   {...field}
+                  type="number"
                   label="Visa Fee"
                   fullWidth
                   error={!!errors.visaFee}
@@ -182,6 +213,7 @@ const VisaForm = () => {
                 <TextField
                   {...field}
                   label="Service Fee"
+                  type="number"
                   fullWidth
                   error={!!errors.serviceFee}
                   helperText={errors.serviceFee?.message}
@@ -201,6 +233,7 @@ const VisaForm = () => {
               onChange={handleFileChange}
               style={{ display: "none" }}
               id="bannerImage"
+              required
             />
             <label htmlFor="bannerImage">
               <Button variant="contained" component="span" fullWidth>
@@ -210,7 +243,7 @@ const VisaForm = () => {
             {bannerImage && (
               <Box sx={{ mt: 2 }}>
                 <img
-                  src={bannerImage}
+                  src={previewImageUrl}
                   alt="Banner Preview"
                   style={{ width: "100%", height: "auto", borderRadius: 8 }}
                 />
@@ -229,6 +262,7 @@ const VisaForm = () => {
                 <TextField
                   {...field}
                   label="Waiting Time (in days)"
+                  type="number"
                   fullWidth
                   error={!!errors.waitingTime}
                   helperText={errors.waitingTime?.message}
@@ -248,6 +282,7 @@ const VisaForm = () => {
                 <TextField
                   {...field}
                   label="Stay Duration (in days)"
+                  type="number"
                   fullWidth
                   error={!!errors.stayDuration}
                   helperText={errors.stayDuration?.message}
@@ -267,6 +302,7 @@ const VisaForm = () => {
                 <TextField
                   {...field}
                   label="Visa Validity (in days)"
+                  type="number"
                   fullWidth
                   error={!!errors.visaValidity}
                   helperText={errors.visaValidity?.message}
@@ -339,6 +375,25 @@ const VisaForm = () => {
             </FormGroup>
           </Grid2>
 
+          {/* Tags Selection */}
+          <Grid2 xs={12} sx={{ mt: 2 }} className="min-w-[200px]">
+            <FormControl fullWidth className="mix-w-[200px]">
+              <InputLabel id="tags-label">Tags</InputLabel>
+              <Select
+                labelId="tags-label"
+                value={selectedTags}
+                onChange={handleTagChange}
+                // renderValue={(selected) => selected.join(", ")}
+              >
+                {tagOptions.map((tag, index) => (
+                  <MenuItem key={index} value={tag}>
+                    {tag}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid2>
+
           {/* Submit Button */}
           <Grid2 xs={12}>
             <Button
@@ -347,8 +402,11 @@ const VisaForm = () => {
               fullWidth
               sx={{
                 mt: 3,
-                backgroundColor: "#1976d2",
-                "&:hover": { backgroundColor: "#115293" },
+                backgroundColor: "#007BFF",
+                color: "#fff",
+                "&:hover": {
+                  backgroundColor: "#0056b3",
+                },
               }}
             >
               Submit

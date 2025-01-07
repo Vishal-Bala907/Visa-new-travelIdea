@@ -26,3 +26,16 @@ export const addNewDocumentType = async (doc) => {
     throw err;
   }
 };
+export const addNewVisa = async (visa) => {
+  console.log(visa);
+  try {
+    const response = await apiClient.post(`/admin/visa/add-visa`, visa, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Automatically handled by FormData, but it's good to explicitly set it
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

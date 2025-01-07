@@ -1,7 +1,8 @@
 import React from "react";
 import { BiSolidPlaneTakeOff } from "react-icons/bi";
 
-const Card = () => {
+const Card = ({ data }) => {
+  console.log(data);
   return (
     // <section>
     <section className="flex w-full flex-col md:flex-row rounded-lg border">
@@ -24,9 +25,7 @@ const Card = () => {
             }}
           />
           <div className="flex flex-col">
-            <p className="text-lg font-extrabold">
-              Tourist Visa - 3 Years | Multi Entry
-            </p>
+            <p className="text-lg font-extrabold">{data.description}</p>
             <div className="sticker-tag mt-1"></div>
           </div>
         </div>
@@ -45,7 +44,7 @@ const Card = () => {
             />
             <div className="flex w-full justify-between">
               <p className="font-inter text-[15px] font-normal text-slategray-200">
-                Visa Types
+                {data.visaType}
               </p>
               <p className="font-inter text-[15px] font-bold text-[#252D3D]">
                 eVisa
@@ -69,7 +68,7 @@ const Card = () => {
                 Stay duration
               </p>
               <p className="font-inter text-[15px] font-bold text-[#252D3D]">
-                90 Days
+                {data.stayDuration} Days
               </p>
             </div>
           </div>
@@ -90,7 +89,7 @@ const Card = () => {
                 Visa validity
               </p>
               <p className="font-inter text-[15px] font-bold text-[#252D3D]">
-                3 years
+                {data.visaValidity} Days
               </p>
             </div>
           </div>
@@ -111,7 +110,7 @@ const Card = () => {
                 Processing time
               </p>
               <p className="font-inter text-[15px] font-bold text-[#252D3D]">
-                3 to 4 weeks
+                {data.waitingTime} Days
               </p>
             </div>
           </div>
@@ -131,10 +130,10 @@ const Card = () => {
               Pay us
             </p>
             <div className="relative flex h-[1.5rem] shrink-0 font-inter text-lg font-bold leading-[100.2%] tracking-[-0.03em] text-primary-text">
-              ₹11,300 per adult
+              ₹{data.visaFee}
             </div>
             <p className="w-fit font-inter text-xs font-normal text-primary-text hover:underline">
-              +₹1799 (Fees+Tax)
+              +₹{data.serviceFee} (Fees+Tax)
             </p>
             <div className="mt-0">
               <aside className="group relative w-fit font-inter">
@@ -150,12 +149,12 @@ const Card = () => {
                   <div className="mb-3  flex w-full shrink-0 flex-row  items-start justify-between">
                     <div className="flex flex-col gap-y-1">
                       <div className="relative inline-block shrink-0 text-[14px] font-normal leading-[1.25rem] text-slategray-200">
-                        Teleport fees:
+                        TravelIdea fees:
                       </div>
                     </div>
                     <div className="flex flex-col gap-y-1">
                       <div className="relative inline-block shrink-0  text-right text-sm font-medium leading-[1.25rem]  ">
-                        ₹1,799
+                        ₹{data.serviceFee}
                       </div>
                     </div>
                   </div>

@@ -1,16 +1,16 @@
-"use client";
-import React, { useState } from "react";
-import StepsHeader from "../../components/formFilling/StepsHeader";
-import Steps from "../../components/formFilling/Steps";
-import Profile from "../../components/profile/Profile";
+import React from "react";
+import StepsHeader from "../../../components/formFilling/StepsHeader";
+import Steps from "../../../components/formFilling/Steps";
+import Profile from "../../../components/profile/Profile";
 import { IoPersonCircle } from "react-icons/io5";
 
-const page = () => {
-  const [showProfile, setShowProfile] = useState(false);
+const page = async ({ params }) => {
+  const { id } = await params;
   return (
     <div>
       <StepsHeader />
       <div className="w-100 flex justify-center align-center my-10">
+        {id}
         <Steps />
       </div>
       {/* <IoPersonCircle

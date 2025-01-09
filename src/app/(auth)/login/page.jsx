@@ -25,7 +25,7 @@ const page = () => {
           loginUser({
             name: data.userName,
             email: data.email,
-            phone: data.number,
+            phone: data.mobileNumber,
             role: data.role,
           })
         );

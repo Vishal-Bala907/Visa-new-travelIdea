@@ -9,3 +9,14 @@ export const getAllVisas = async () => {
     throw err;
   }
 };
+
+export const getProfile = async () => {
+  try {
+    const response = await apiClient.get(`/data/profile`);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// export const getProfile = await apiClient

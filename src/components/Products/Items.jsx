@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const Items = () => {
   const visaItems = useSelector((state) => state.visas.visas);
-  // console.log(visaItems);
+  console.log(visaItems);
 
   return (
     <div className="my-5 grid grid-flow-row grid-cols-1 gap-6 sm:grid-cols-4">

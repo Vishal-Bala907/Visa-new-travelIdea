@@ -22,9 +22,9 @@ export default function Steps() {
     <div className="flex justify-center align-center w-[50%]  flex-col mx-w-[50%]">
       {/* {step.map((item, idx) => { */}
       {/* return ( */}
-      {/* <Accordion>
+      <Accordion>
         <PassportForm />
-      </Accordion> */}
+      </Accordion>
       {/* ); */}
       {/* })} */}
     </div>

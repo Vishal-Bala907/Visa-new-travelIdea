@@ -22,6 +22,8 @@ import AddVisaType from "./AddVisaType";
 import { useSelector } from "react-redux";
 import AutofillCountry from "./AutofillCountry"; // Import the AutofillCountry component
 import { addNewVisa } from "../server/admin/admin";
+import EmbassyFeesStructureForm from "./EmbassyFeesStructureForm";
+import { toast } from "react-toastify";
 
 const documentOptions = [
   "Passport Copy",
@@ -50,16 +52,25 @@ const VisaForm = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const [selectedDocuments, setSelectedDocuments] = useState([]);
   const [bannerImage, setBannerImage] = useState(null);
   const [selectedTags, setSelectedTags] = useState("");
   const [previewImageUrl, setPreviewImageUrl] = useState("");
+  const [feesStructure, setFessStructure] = useState(null);
 
   const onSubmit = (data) => {
+    if (feesStructure === null) {
+      toast.error("Please add Fees Structure", {
+        position: "top-left",
+      });
+
+      return;
+    }
+
     const formData = new FormData();
-    console.log(data.countryName.value);
 
     // Append the form data values
     formData.append("countryName", data.countryName.value);
@@ -71,7 +82,13 @@ const VisaForm = () => {
     formData.append("visaValidity", data.visaValidity);
     formData.append("insuranceDetails", data.insuranceDetails);
     formData.append("description", data.description);
-
+    formData.append(
+      "embassyFees",
+      new Blob([JSON.stringify(feesStructure.embassyFees)], {
+        type: "application/json",
+      })
+    );
+    console.log(feesStructure);
     // Append required documents and tags
     selectedDocuments.forEach((doc) =>
       formData.append("requiredDocuments", doc)
@@ -86,7 +103,13 @@ const VisaForm = () => {
     // Send the form data to the server
     addNewVisa(formData)
       .then((response) => {
-        console.log(response);
+        // Reset form fields after successful submission
+        reset();
+        setSelectedDocuments([]);
+        setBannerImage(null);
+        setPreviewImageUrl("");
+        setSelectedTags("");
+        setFessStructure(null);
       })
       .catch((error) => {
         console.error(error);
@@ -108,6 +131,12 @@ const VisaForm = () => {
         ? prev.filter((item) => item !== document)
         : [...prev, document]
     );
+  };
+
+  const handleFessSubmit = (data) => {
+    setFessStructure({
+      embassyFees: data,
+    });
   };
 
   const handleTagChange = (event) => {
@@ -377,7 +406,7 @@ const VisaForm = () => {
 
           {/* Tags Selection */}
           <Grid2 xs={12} sx={{ mt: 2 }} className="min-w-[200px]">
-            <FormControl fullWidth className="mix-w-[200px]">
+            <FormControl fullWidth className="min-w-[200px]">
               <InputLabel id="tags-label">Tags</InputLabel>
               <Select
                 labelId="tags-label"
@@ -414,6 +443,7 @@ const VisaForm = () => {
           </Grid2>
         </Grid2>
       </Box>
+      <EmbassyFeesStructureForm onSubmit={handleFessSubmit} />
     </section>
   );
 };

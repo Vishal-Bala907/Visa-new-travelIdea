@@ -19,11 +19,11 @@ const Item = ({ item }) => {
           style={{
             objectFit: "cover",
           }}
-          className="rounded-lg"
+          className="rounded-lg max-w-[400] max-h-[200px]"
         />
-        <div className="absolute top-2 right-2 bg-yellow-200 text-black px-2 py-1 rounded-xl text-xs">
+        {/* <div className="absolute top-2 right-2 bg-yellow-200 text-black px-2 py-1 rounded-xl text-xs">
           1954 issued recently
-        </div>
+        </div> */}
       </div>
 
       <div className="mt-4">

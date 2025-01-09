@@ -163,7 +163,7 @@ const Card = ({ data }) => {
                   <div className="mb-3  flex w-full shrink-0 flex-row items-start justify-between">
                     <div className="flex flex-col">
                       <div className="relative inline-block shrink-0 text-[14px] font-normal leading-[0.97rem] text-slategray-200">
-                        Embassy fees:
+                        Appointment Fees :
                       </div>
                       <div className="relative inline-block w-[150px] break-words text-xs font-normal leading-[0.97rem] text-[#8A8A8A]">
                         Pay online
@@ -171,10 +171,36 @@ const Card = ({ data }) => {
                     </div>
                     <div className="font-dm-mono flex shrink-0 flex-col items-end justify-start text-right">
                       <div className="relative mb-2  inline-block text-sm font-medium leading-[1.25rem] last:mb-0">
-                        ₹11,300{" "}
+                        ₹{data.embassyFees.appointmentFees | 0}
                         <p className="text-xs font-normal text-slategray-200"></p>
                       </div>
                     </div>
+                  </div>
+                  <div className="mb-3  flex w-full shrink-0 flex-col items-start justify-between">
+                    {data.embassyFees.fees.length > 0 &&
+                      data.embassyFees.fees.map((fee, idx) => {
+                        return (
+                          <div
+                            className="flex flex-row justify-between"
+                            key={idx}
+                          >
+                            <div className="flex flex-col items-start">
+                              <div className="relative inline-block shrink-0 text-[14px] font-normal leading-[0.97rem] text-slategray-200">
+                                {fee.title} (age) : Fees
+                              </div>
+                              <div className="relative inline-block w-[150px] break-words text-xs font-normal leading-[0.97rem] text-[#8A8A8A]">
+                                Pay online
+                              </div>
+                            </div>
+                            <div className="font-dm-mono flex shrink-0 flex-col items-end justify-start text-right">
+                              <div className="relative mb-2  inline-block text-sm font-medium leading-[1.25rem] last:mb-0">
+                                ₹{fee.fees | 0}
+                                <p className="text-xs font-normal text-slategray-200"></p>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </aside>

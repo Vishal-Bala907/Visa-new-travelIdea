@@ -12,7 +12,8 @@ import { useRouter } from "next/navigation";
 import { Provider, useDispatch } from "react-redux";
 import store from "../components/redux/configStore";
 import { addAllVisas } from "../components/redux/slices/Visas";
-import { getAllVisas } from "../components/server/basic/basic";
+import { getAllVisas, getProfile } from "../components/server/basic/basic";
+import { loginUser } from "../components/redux/slices/UserSlice";
 
 export default function Home() {
   const router = useRouter();
@@ -23,14 +24,26 @@ export default function Home() {
     const TOKEN = JSON.parse(localStorage.getItem("token"));
     if (!TOKEN) {
       router.push("/login");
+    } else {
+      // fetch user profile
+      getProfile()
+        .then((data) => {
+          console.log(data);
+          dispatch(loginUser(data));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
     getAllVisas()
       .then((data) => {
+        console.log(data);
         dispatch(addAllVisas(data));
       })
       .catch((err) => {
         console.log(err);
       });
+
     // fethc all the visas
   }, [router]);
 

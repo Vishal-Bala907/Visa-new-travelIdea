@@ -1,8 +1,10 @@
+import { useRouter } from "next/navigation";
 import React from "react";
 import { BiSolidPlaneTakeOff } from "react-icons/bi";
 
 const Card = ({ data }) => {
-  console.log(data);
+  // console.log(data);
+  const router = useRouter();
   return (
     // <section>
     <section className="flex w-full flex-col md:flex-row rounded-lg border">
@@ -117,7 +119,12 @@ const Card = ({ data }) => {
         </div>
       </section>
       <section className="flex w-full flex-col-reverse px-3 py-4 font-inter md:w-1/3 md:flex-col">
-        <div className="bg-[#093258] primary-button relative flex cursor-pointer items-center justify-center rounded-md px-7 py-3 w-full h-undefined undefined">
+        <div
+          onClick={() => {
+            router.push(`/submit/${data.id}`);
+          }}
+          className="bg-[#093258] primary-button relative flex cursor-pointer items-center justify-center rounded-md px-7 py-3 w-full h-undefined undefined"
+        >
           {" "}
           <p className="h-fit font-semibold text-white opacity-90 text-base  bg-blue">
             Start Application

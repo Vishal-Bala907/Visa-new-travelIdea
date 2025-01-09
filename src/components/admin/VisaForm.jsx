@@ -97,6 +97,7 @@ const VisaForm = () => {
 
     // Append the banner image
     if (bannerImage) {
+      console.log(bannerImage);
       formData.append("bannerImage", bannerImage);
     }
 

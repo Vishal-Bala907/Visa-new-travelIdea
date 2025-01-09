@@ -9,7 +9,7 @@ const page = async ({ params }) => {
   return (
     <div>
       <StepsHeader />
-      <div className="w-100 flex justify-center align-center my-10">
+      <div>
         {id}
         <Steps />
       </div>

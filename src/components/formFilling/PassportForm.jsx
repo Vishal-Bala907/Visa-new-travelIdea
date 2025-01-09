@@ -24,7 +24,7 @@ import "react-date-range/dist/theme/default.css";
 import { BsStars } from "react-icons/bs";
 import "./PassportForm.css";
 import { toast, ToastContainer } from "react-toastify";
-const VITE_API_URL = "dd19b51921b712188d97d761a149491f";
+const VITE_API_URL = "531b6d6b983dfae6cdfb128db4523040";
 
 const initialTravelerState = {
   passportFront: null,
@@ -48,7 +48,6 @@ const initialTravelerState = {
     email: "",
   },
   loading: false,
-  error: "",
 };
 
 const PassportForm = () => {

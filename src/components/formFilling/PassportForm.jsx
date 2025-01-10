@@ -10,47 +10,44 @@ import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { addVisaRequest } from "../redux/slices/VisaRequest";
 
-
-const VITE_API_URL = "4930ac1890fc6034c92921a12f9b6e65";
+const VITE_API_URL = "3208bd0409cbf015ecb66edda3b32b2d";
 
 const initialVisaRequestsState = {
-  visaRequests: {
-    purposeOfVisit: "",
-    startDate: new Date(), // Store as Date object
-    endDate: new Date(), // Store as Date object
-    visaRequest: [
-      {
-        request: {
-          visa: {
-            passportNumber: "",
-            givenName: "",
-            surname: "",
-            sex: "",
-            dateOfBirth: new Date(), // Store as Date object
-            placeOfBirth: "",
-            issueDate: new Date(), // Store as Date object
-            expiryDate: new Date(), // Store as Date object
-            issuePlace: "",
-            addressLine1: "",
-            addressLine2: "",
-            state: "",
-            city: "",
-            pincode: "",
-            mobile: "",
-            email: "",
-            passportFront: null,
-            passportBack: null,
-          },
-          docs: [
-            {
-              name: "",
-              image: "",
-            },
-          ],
+  purposeOfVisit: "",
+  startDate: new Date(), // Store as Date object
+  endDate: new Date(), // Store as Date object
+  visaRequest: [
+    {
+      request: {
+        visa: {
+          passportNumber: "",
+          givenName: "",
+          surname: "",
+          sex: "",
+          dateOfBirth: new Date(),
+          placeOfBirth: "",
+          issueDate: new Date(), // Store as Date object
+          expiryDate: new Date(), // Store as Date object
+          issuePlace: "",
+          addressLine1: "",
+          addressLine2: "",
+          state: "",
+          city: "",
+          pincode: "",
+          mobile: "",
+          email: "",
+          passportFront: null,
+          passportBack: null,
         },
+        docs: [
+          {
+            name: "",
+            image: "",
+          },
+        ],
       },
-    ],
-  },
+    },
+  ],
   loading: false,
 };
 
@@ -75,30 +72,24 @@ const PassportForm = ({ purposeOfVisit }) => {
   const handleAddTab = () => {
     setVisaRequests((prevState) => ({
       ...prevState,
-      visaRequests: {
-        ...prevState.visaRequests,
-        visaRequest: [
-          ...prevState.visaRequests.visaRequest,
-          initialVisaRequestsState.visaRequests.visaRequest[0],
-        ],
-      },
+      visaRequest: [
+        ...prevState.visaRequest,
+        initialVisaRequestsState.visaRequest[0],
+      ],
     }));
-    setTabValue(visaRequests.visaRequests.visaRequest.length);
+    setTabValue(visaRequests.visaRequest.length);
   };
 
   const DateRangeRef = useRef(null);
 
   const handleDeleteTab = (index) => {
     if (index === 0) return;
-    const newVisaRequests = visaRequests.visaRequests.visaRequest.filter(
+    const newVisaRequests = visaRequests.visaRequest.filter(
       (_, i) => i !== index
     );
     setVisaRequests((prevState) => ({
       ...prevState,
-      visaRequests: {
-        ...prevState.visaRequests,
-        visaRequest: newVisaRequests,
-      },
+      visaRequest: newVisaRequests,
     }));
     setTabValue(tabValue >= index ? tabValue - 1 : tabValue);
   };
@@ -140,24 +131,21 @@ const PassportForm = ({ purposeOfVisit }) => {
       reader.onload = () => {
         setVisaRequests((prevState) => ({
           ...prevState,
-          visaRequests: {
-            ...prevState.visaRequests,
-            visaRequest: prevState.visaRequests.visaRequest.map((request, i) =>
-              i === index
-                ? {
-                    ...request,
-                    request: {
-                      ...request.request,
-                      visa: {
-                        ...request.request.visa,
-                        [type === "front" ? "passportFront" : "passportBack"]:
-                          reader.result,
-                      },
+          visaRequest: prevState.visaRequest.map((request, i) =>
+            i === index
+              ? {
+                  ...request,
+                  request: {
+                    ...request.request,
+                    visa: {
+                      ...request.request.visa,
+                      [type === "front" ? "passportFront" : "passportBack"]:
+                        reader.result,
                     },
-                  }
-                : request
-            ),
-          },
+                  },
+                }
+              : request
+          ),
         }));
       };
       reader.readAsDataURL(file);
@@ -182,72 +170,69 @@ const PassportForm = ({ purposeOfVisit }) => {
 
         setVisaRequests((prevState) => ({
           ...prevState,
-          visaRequests: {
-            ...prevState.visaRequests,
-            visaRequest: prevState.visaRequests.visaRequest.map((request, i) =>
-              i === index
-                ? {
-                    ...request,
-                    request: {
-                      ...request.request,
-                      visa: {
-                        ...request.request.visa,
-                        givenName:
-                          apiData.given_names?.value ||
-                          request.request.visa.givenName ||
-                          "",
-                        surname:
-                          apiData.surname?.value ||
-                          request.request.visa.surname ||
-                          "",
-                        sex:
-                          apiData.gender?.value === "M"
-                            ? "Male"
-                            : apiData.gender?.value === "F"
-                            ? "Female"
-                            : "Other" || request.request.visa.sex,
-                        dateOfBirth: apiData.birth_date?.value
-                          ? new Date(apiData.birth_date.value)
-                          : request.request.visa.dateOfBirth || new Date(),
-                        placeOfBirth:
-                          apiData.birth_place?.value ||
-                          request.request.visa.placeOfBirth ||
-                          "",
-                        issueDate: apiData.issuance_date?.value
-                          ? new Date(apiData.issuance_date.value)
-                          : request.request.visa.issueDate || new Date(),
-                        expiryDate: apiData.expiry_date?.value
-                          ? new Date(apiData.expiry_date.value)
-                          : request.request.visa.expiryDate || new Date(),
-                        issuePlace:
-                          apiData.issuance_place?.value ||
-                          request.request.visa.issuePlace,
-                        addressLine1:
-                          apiData.address1?.value ||
-                          request.request.visa.addressLine1 ||
-                          "",
-                        addressLine2:
-                          apiData.address2?.value ||
-                          request.request.visa.addressLine2 ||
-                          "",
-                        state:
-                          apiData.address3?.value?.split(",")[1]?.trim() ||
-                          request.request.visa.state ||
-                          "",
-                        city:
-                          apiData.address3?.value?.split(",")[0]?.trim() ||
-                          request.request.visa.city ||
-                          "",
-                        pincode:
-                          apiData.address3?.value?.split(",")[2]?.trim() ||
-                          request.request.visa.pincode ||
-                          "",
-                      },
+          visaRequest: prevState.visaRequest.map((request, i) =>
+            i === index
+              ? {
+                  ...request,
+                  request: {
+                    ...request.request,
+                    visa: {
+                      ...request.request.visa,
+                      givenName:
+                        apiData.given_names?.value ||
+                        request.request.visa.givenName ||
+                        "",
+                      surname:
+                        apiData.surname?.value ||
+                        request.request.visa.surname ||
+                        "",
+                      sex:
+                        apiData.gender?.value === "M"
+                          ? "Male"
+                          : apiData.gender?.value === "F"
+                          ? "Female"
+                          : "Other" || request.request.visa.sex,
+                      dateOfBirth: apiData.birth_date?.value
+                        ? new Date(apiData.birth_date.value)
+                        : request.request.visa.dateOfBirth || new Date(),
+                      placeOfBirth:
+                        apiData.birth_place?.value ||
+                        request.request.visa.placeOfBirth ||
+                        "",
+                      issueDate: apiData.issuance_date?.value
+                        ? new Date(apiData.issuance_date.value)
+                        : request.request.visa.issueDate || new Date(),
+                      expiryDate: apiData.expiry_date?.value
+                        ? new Date(apiData.expiry_date.value)
+                        : request.request.visa.expiryDate || new Date(),
+                      issuePlace:
+                        apiData.issuance_place?.value ||
+                        request.request.visa.issuePlace,
+                      addressLine1:
+                        apiData.address1?.value ||
+                        request.request.visa.addressLine1 ||
+                        "",
+                      addressLine2:
+                        apiData.address2?.value ||
+                        request.request.visa.addressLine2 ||
+                        "",
+                      state:
+                        apiData.address3?.value?.split(",")[1]?.trim() ||
+                        request.request.visa.state ||
+                        "",
+                      city:
+                        apiData.address3?.value?.split(",")[0]?.trim() ||
+                        request.request.visa.city ||
+                        "",
+                      pincode:
+                        apiData.address3?.value?.split(",")[2]?.trim() ||
+                        request.request.visa.pincode ||
+                        "",
                     },
-                  }
-                : request
-            ),
-          },
+                  },
+                }
+              : request
+          ),
         }));
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -259,46 +244,40 @@ const PassportForm = ({ purposeOfVisit }) => {
   const handleDeleteImage = (index, type) => {
     setVisaRequests((prevState) => ({
       ...prevState,
-      visaRequests: {
-        ...prevState.visaRequests,
-        visaRequest: prevState.visaRequests.visaRequest.map((request, i) =>
-          i === index
-            ? {
-                ...request,
-                request: {
-                  ...request.request,
-                  visa: {
-                    ...request.request.visa,
-                    [type === "front" ? "passportFront" : "passportBack"]: null,
-                  },
+      visaRequest: prevState.visaRequest.map((request, i) =>
+        i === index
+          ? {
+              ...request,
+              request: {
+                ...request.request,
+                visa: {
+                  ...request.request.visa,
+                  [type === "front" ? "passportFront" : "passportBack"]: null,
                 },
-              }
-            : request
-        ),
-      },
+              },
+            }
+          : request
+      ),
     }));
   };
 
   const handleFormChange = (index, field, value) => {
     setVisaRequests((prevState) => ({
       ...prevState,
-      visaRequests: {
-        ...prevState.visaRequests,
-        visaRequest: prevState.visaRequests.visaRequest.map((request, i) =>
-          i === index
-            ? {
-                ...request,
-                request: {
-                  ...request.request,
-                  visa: {
-                    ...request.request.visa,
-                    [field]: field.includes("Date") ? new Date(value) : value,
-                  },
+      visaRequest: prevState.visaRequest.map((request, i) =>
+        i === index
+          ? {
+              ...request,
+              request: {
+                ...request.request,
+                visa: {
+                  ...request.request.visa,
+                  [field]: field.includes("Date") ? new Date(value) : value,
                 },
-              }
-            : request
-        ),
-      },
+              },
+            }
+          : request
+      ),
     }));
   };
 
@@ -308,11 +287,8 @@ const PassportForm = ({ purposeOfVisit }) => {
 
     setVisaRequests((prevState) => ({
       ...prevState,
-      visaRequests: {
-        ...prevState.visaRequests,
-        startDate: item.selection.startDate, // Store as Date object
-        endDate: item.selection.endDate, // Store as Date object
-      },
+      startDate: item.selection.startDate, // Store as Date object
+      endDate: item.selection.endDate, // Store as Date object
     }));
   };
 
@@ -334,7 +310,7 @@ const PassportForm = ({ purposeOfVisit }) => {
     }
 
     // Dispatch the action to save the visa request details in Redux
-    dispatch(addVisaRequest(visaRequests.visaRequests));
+    dispatch(addVisaRequest(visaRequests));
 
     toast("Visa request submitted successfully!");
   };
@@ -411,7 +387,7 @@ const PassportForm = ({ purposeOfVisit }) => {
 
       <div className="w-full bg-white">
         <div className="flex justify-center">
-          {visaRequests.visaRequests.visaRequest.map((_, index) => (
+          {visaRequests.visaRequest.map((_, index) => (
             <button
               key={index}
               onClick={() => handleTabChange(index)}
@@ -444,7 +420,7 @@ const PassportForm = ({ purposeOfVisit }) => {
 
       <div className="flex flex-col md:flex-row items-start justify-center p-6">
         <div className="w-full md:w-1/4 flex flex-col items-center space-y-4">
-          {visaRequests.visaRequests.visaRequest[tabValue] && (
+          {visaRequests.visaRequest[tabValue] && (
             <>
               <div className="w-full relative">
                 <label className="block text-gray-700 font-bold mb-2">
@@ -457,13 +433,13 @@ const PassportForm = ({ purposeOfVisit }) => {
                   className="w-full border p-2"
                 />
                 <div className="relative">
-                  {visaRequests.visaRequests.visaRequest[tabValue].request.visa
+                  {visaRequests.visaRequest[tabValue].request.visa
                     .passportFront ? (
                     <>
                       <img
                         src={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.passportFront
+                          visaRequests.visaRequest[tabValue].request.visa
+                            .passportFront
                         }
                         alt="Passport Front"
                         className="mt-4 w-3/4"
@@ -494,13 +470,13 @@ const PassportForm = ({ purposeOfVisit }) => {
                   onChange={(e) => handleImageUpload(e, tabValue, "back")}
                   className="w-full border p-2"
                 />
-                {visaRequests.visaRequests.visaRequest[tabValue].request.visa
+                {visaRequests.visaRequest[tabValue].request.visa
                   .passportBack ? (
                   <div className="relative">
                     <img
                       src={
-                        visaRequests.visaRequests.visaRequest[tabValue].request
-                          .visa.passportBack
+                        visaRequests.visaRequest[tabValue].request.visa
+                          .passportBack
                       }
                       alt="Passport Back"
                       className="mt-4 w-3/4"
@@ -547,7 +523,7 @@ const PassportForm = ({ purposeOfVisit }) => {
               Please note that the auto-filled information may be incorrect.
               Kindly review and make any necessary corrections.
             </div>
-            {visaRequests.visaRequests.visaRequest[tabValue] && (
+            {visaRequests.visaRequest[tabValue] && (
               <>
                 <h2 className="text-xl font-bold mb-4">
                   Traveler&#39;s Basic Details
@@ -568,8 +544,8 @@ const PassportForm = ({ purposeOfVisit }) => {
                         type="text"
                         placeholder="Given Name"
                         value={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.givenName
+                          visaRequests.visaRequest[tabValue].request.visa
+                            .givenName
                         }
                         onChange={(e) =>
                           handleFormChange(
@@ -591,8 +567,8 @@ const PassportForm = ({ purposeOfVisit }) => {
                         type="text"
                         placeholder="Surname"
                         value={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.surname
+                          visaRequests.visaRequest[tabValue].request.visa
+                            .surname
                         }
                         onChange={(e) =>
                           handleFormChange(tabValue, "surname", e.target.value)
@@ -611,8 +587,7 @@ const PassportForm = ({ purposeOfVisit }) => {
                       </label>
                       <select
                         value={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.sex
+                          visaRequests.visaRequest[tabValue].request.visa.sex
                         }
                         onChange={(e) =>
                           handleFormChange(tabValue, "sex", e.target.value)
@@ -633,11 +608,11 @@ const PassportForm = ({ purposeOfVisit }) => {
                       <input
                         type="date"
                         value={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.dateOfBirth
+                          visaRequests.visaRequest[tabValue].request.visa
+                            .dateOfBirth
                             ? dayjs(
-                                visaRequests.visaRequests.visaRequest[tabValue]
-                                  .request.visa.dateOfBirth
+                                visaRequests.visaRequest[tabValue].request.visa
+                                  .dateOfBirth
                               ).format("YYYY-MM-DD")
                             : ""
                         }
@@ -663,8 +638,8 @@ const PassportForm = ({ purposeOfVisit }) => {
                       type="text"
                       placeholder="Place of Birth"
                       value={
-                        visaRequests.visaRequests.visaRequest[tabValue].request
-                          .visa.placeOfBirth
+                        visaRequests.visaRequest[tabValue].request.visa
+                          .placeOfBirth
                       }
                       onChange={(e) =>
                         handleFormChange(
@@ -687,11 +662,11 @@ const PassportForm = ({ purposeOfVisit }) => {
                       <input
                         type="date"
                         value={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.issueDate
+                          visaRequests.visaRequest[tabValue].request.visa
+                            .issueDate
                             ? dayjs(
-                                visaRequests.visaRequests.visaRequest[tabValue]
-                                  .request.visa.issueDate
+                                visaRequests.visaRequest[tabValue].request.visa
+                                  .issueDate
                               ).format("YYYY-MM-DD")
                             : ""
                         }
@@ -714,11 +689,11 @@ const PassportForm = ({ purposeOfVisit }) => {
                       <input
                         type="date"
                         value={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.expiryDate
+                          visaRequests.visaRequest[tabValue].request.visa
+                            .expiryDate
                             ? dayjs(
-                                visaRequests.visaRequests.visaRequest[tabValue]
-                                  .request.visa.expiryDate
+                                visaRequests.visaRequest[tabValue].request.visa
+                                  .expiryDate
                               ).format("YYYY-MM-DD")
                             : ""
                         }
@@ -744,8 +719,8 @@ const PassportForm = ({ purposeOfVisit }) => {
                       type="text"
                       placeholder="Passport Issue Place"
                       value={
-                        visaRequests.visaRequests.visaRequest[tabValue].request
-                          .visa.issuePlace
+                        visaRequests.visaRequest[tabValue].request.visa
+                          .issuePlace
                       }
                       onChange={(e) =>
                         handleFormChange(tabValue, "issuePlace", e.target.value)
@@ -765,8 +740,8 @@ const PassportForm = ({ purposeOfVisit }) => {
                         type="text"
                         placeholder="Address Line 1"
                         value={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.addressLine1
+                          visaRequests.visaRequest[tabValue].request.visa
+                            .addressLine1
                         }
                         onChange={(e) =>
                           handleFormChange(
@@ -783,8 +758,8 @@ const PassportForm = ({ purposeOfVisit }) => {
                         type="text"
                         placeholder="Address Line 2"
                         value={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.addressLine2
+                          visaRequests.visaRequest[tabValue].request.visa
+                            .addressLine2
                         }
                         onChange={(e) =>
                           handleFormChange(
@@ -802,8 +777,8 @@ const PassportForm = ({ purposeOfVisit }) => {
                           type="text"
                           placeholder="State"
                           value={
-                            visaRequests.visaRequests.visaRequest[tabValue]
-                              .request.visa.state
+                            visaRequests.visaRequest[tabValue].request.visa
+                              .state
                           }
                           onChange={(e) =>
                             handleFormChange(tabValue, "state", e.target.value)
@@ -816,8 +791,7 @@ const PassportForm = ({ purposeOfVisit }) => {
                           type="text"
                           placeholder="City"
                           value={
-                            visaRequests.visaRequests.visaRequest[tabValue]
-                              .request.visa.city
+                            visaRequests.visaRequest[tabValue].request.visa.city
                           }
                           onChange={(e) =>
                             handleFormChange(tabValue, "city", e.target.value)
@@ -830,8 +804,8 @@ const PassportForm = ({ purposeOfVisit }) => {
                           type="text"
                           placeholder="Pincode"
                           value={
-                            visaRequests.visaRequests.visaRequest[tabValue]
-                              .request.visa.pincode
+                            visaRequests.visaRequest[tabValue].request.visa
+                              .pincode
                           }
                           onChange={(e) =>
                             handleFormChange(
@@ -857,8 +831,7 @@ const PassportForm = ({ purposeOfVisit }) => {
                         type="text"
                         placeholder="Mobile Number"
                         value={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.mobile
+                          visaRequests.visaRequest[tabValue].request.visa.mobile
                         }
                         onChange={(e) =>
                           handleFormChange(tabValue, "mobile", e.target.value)
@@ -876,8 +849,7 @@ const PassportForm = ({ purposeOfVisit }) => {
                         type="email"
                         placeholder="Email Address"
                         value={
-                          visaRequests.visaRequests.visaRequest[tabValue]
-                            .request.visa.email
+                          visaRequests.visaRequest[tabValue].request.visa.email
                         }
                         onChange={(e) =>
                           handleFormChange(tabValue, "email", e.target.value)

@@ -193,8 +193,11 @@ const Card = ({ data }) => {
                           >
                             <div className="flex flex-col items-start">
                               <div className="relative inline-block shrink-0 text-[14px] font-normal leading-[0.97rem] text-slategray-200">
-                                {fee.title} (age) : Fees
+                                {fee.minAge} - {fee.maxAge} (age) : Fees
                               </div>
+                              {/* <div className="relative inline-block shrink-0 text-[14px] font-normal leading-[0.97rem] text-slategray-200">
+                                {fee.maxAge} (age) : Fees
+                              </div> */}
                               <div className="relative inline-block w-[150px] break-words text-xs font-normal leading-[0.97rem] text-[#8A8A8A]">
                                 Pay online
                               </div>

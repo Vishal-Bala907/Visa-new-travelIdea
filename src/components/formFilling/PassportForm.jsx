@@ -9,8 +9,9 @@ import { DateRangePicker } from "react-date-range";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { addVisaRequest } from "../redux/slices/VisaRequest";
-
-const VITE_API_URL = "3208bd0409cbf015ecb66edda3b32b2d";
+import "react-toastify/dist/ReactToastify.css";
+//const VITE_API_URL = "3208bd0409cbf015ecb66edda3b32b2d";
+const VITE_API_URL = "";
 
 const initialVisaRequestsState = {
   purposeOfVisit: "",
@@ -303,17 +304,34 @@ const PassportForm = ({ purposeOfVisit }) => {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  const handleSubmit = () => {
-    if (!isDateRangeSelected && isImageUploaded) {
-      toast("Please select departure and arrival date.");
-      return;
-    }
+const handleSubmit = () => {
+  if (!isDateRangeSelected && isImageUploaded) {
+    toast("Please select departure and arrival date.");
+    return;
+  }
 
-    // Dispatch the action to save the visa request details in Redux
-    dispatch(addVisaRequest(visaRequests));
-
-    toast("Visa request submitted successfully!");
+  const serializableVisaRequests = {
+    ...visaRequests,
+    startDate: visaRequests.startDate.toISOString(),
+    endDate: visaRequests.endDate.toISOString(),
+    visaRequest: visaRequests.visaRequest.map((request) => ({
+      ...request,
+      request: {
+        ...request.request,
+        visa: {
+          ...request.request.visa,
+          dateOfBirth: request.request.visa.dateOfBirth.toISOString(),
+          issueDate: request.request.visa.issueDate.toISOString(),
+          expiryDate: request.request.visa.expiryDate.toISOString(),
+        },
+      },
+    })),
   };
+
+  dispatch(addVisaRequest(serializableVisaRequests));
+  toast("Visa request submitted successfully!");
+};
+
 
   return (
     <div className="p-4">

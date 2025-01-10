@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { BsStars } from "react-icons/bs";
@@ -7,14 +7,16 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRangePicker } from "react-date-range";
 import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
+import { addVisaRequest } from "../redux/slices/VisaRequest";
 
-const VITE_API_URL = "531b6d6b983dfae6cdfb128db4523040";
+const VITE_API_URL = "4930ac1890fc6034c92921a12f9b6e65";
 
 const initialVisaRequestsState = {
   visaRequests: {
     purposeOfVisit: "",
-    startDate: "",
-    endDate: "",
+    startDate: new Date(), // Store as Date object
+    endDate: new Date(), // Store as Date object
     visaRequest: [
       {
         request: {
@@ -23,10 +25,10 @@ const initialVisaRequestsState = {
             givenName: "",
             surname: "",
             sex: "",
-            dateOfBirth: "",
+            dateOfBirth: new Date(), // Store as Date object
             placeOfBirth: "",
-            issueDate: "",
-            expiryDate: "",
+            issueDate: new Date(), // Store as Date object
+            expiryDate: new Date(), // Store as Date object
             issuePlace: "",
             addressLine1: "",
             addressLine2: "",
@@ -52,6 +54,7 @@ const initialVisaRequestsState = {
 };
 
 const PassportForm = ({ purposeOfVisit }) => {
+  const dispatch = useDispatch();
   const [visaRequests, setVisaRequests] = useState(initialVisaRequestsState);
   const [tabValue, setTabValue] = useState(0);
   const [dateRange, setDateRange] = useState([
@@ -203,23 +206,17 @@ const PassportForm = ({ purposeOfVisit }) => {
                             : "Other" || request.request.visa.sex,
                         dateOfBirth: apiData.birth_date?.value
                           ? new Date(apiData.birth_date.value)
-                              .toISOString()
-                              .split("T")[0]
-                          : request.request.visa.dateOfBirth || "",
+                          : request.request.visa.dateOfBirth || new Date(),
                         placeOfBirth:
                           apiData.birth_place?.value ||
                           request.request.visa.placeOfBirth ||
                           "",
                         issueDate: apiData.issuance_date?.value
                           ? new Date(apiData.issuance_date.value)
-                              .toISOString()
-                              .split("T")[0]
-                          : request.request.visa.issueDate || "",
+                          : request.request.visa.issueDate || new Date(),
                         expiryDate: apiData.expiry_date?.value
                           ? new Date(apiData.expiry_date.value)
-                              .toISOString()
-                              .split("T")[0]
-                          : request.request.visa.expiryDate || "",
+                          : request.request.visa.expiryDate || new Date(),
                         issuePlace:
                           apiData.issuance_place?.value ||
                           request.request.visa.issuePlace,
@@ -293,7 +290,7 @@ const PassportForm = ({ purposeOfVisit }) => {
                   ...request.request,
                   visa: {
                     ...request.request.visa,
-                    [field]: value ?? "",
+                    [field]: field.includes("Date") ? new Date(value) : value,
                   },
                 },
               }
@@ -303,7 +300,6 @@ const PassportForm = ({ purposeOfVisit }) => {
     }));
   };
 
-  // Update visaRequests with selected startDate and endDate
   const handleDateRangeChange = (item) => {
     setDateRange([item.selection]);
     setIsDateRangeSelected(true);
@@ -312,8 +308,8 @@ const PassportForm = ({ purposeOfVisit }) => {
       ...prevState,
       visaRequests: {
         ...prevState.visaRequests,
-        startDate: item.selection.startDate.toISOString().split("T")[0],
-        endDate: item.selection.endDate.toISOString().split("T")[0],
+        startDate: item.selection.startDate, // Store as Date object
+        endDate: item.selection.endDate, // Store as Date object
       },
     }));
   };
@@ -328,6 +324,18 @@ const PassportForm = ({ purposeOfVisit }) => {
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const handleSubmit = () => {
+    if (!isDateRangeSelected && isImageUploaded) {
+      toast("Please select departure and arrival date.");
+      return;
+    }
+
+    console.log(visaRequests.visaRequests);
+    dispatch(addVisaRequest(visaRequests.visaRequests));
+
+    toast("Visa request submitted successfully!");
+  };
 
   return (
     <div className="p-4">
@@ -543,259 +551,348 @@ const PassportForm = ({ purposeOfVisit }) => {
                   Traveler&#39;s Basic Details
                 </h2>
                 <form
-                  className="space-y-4"
-                  onSubmit={(e) => e.preventDefault()}
+                  className="space-y-6"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSubmit();
+                  }}
                 >
-                  <input
-                    type="text"
-                    placeholder="Given Name"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.givenName
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "givenName", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Surname"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.surname
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "surname", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <select
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.sex
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "sex", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  >
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  <input
-                    type="date"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.dateOfBirth
-                        ? dayjs(
-                            visaRequests.visaRequests.visaRequest[tabValue]
-                              .request.visa.dateOfBirth
-                          ).format("YYYY-MM-DD")
-                        : ""
-                    }
-                    onChange={(e) =>
-                      handleFormChange(
-                        tabValue,
-                        "dateOfBirth",
-                        e.target.value ? new Date(e.target.value) : ""
-                      )
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Place of Birth"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.placeOfBirth
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "placeOfBirth", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <div className="flex flex-wrap md:flex-nowrap gap-5">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Given Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Given Name"
+                        value={
+                          visaRequests.visaRequests.visaRequest[tabValue]
+                            .request.visa.givenName
+                        }
+                        onChange={(e) =>
+                          handleFormChange(
+                            tabValue,
+                            "givenName",
+                            e.target.value
+                          )
+                        }
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        required
+                        disabled={!isImageUploaded}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Surname
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Surname"
+                        value={
+                          visaRequests.visaRequests.visaRequest[tabValue]
+                            .request.visa.surname
+                        }
+                        onChange={(e) =>
+                          handleFormChange(tabValue, "surname", e.target.value)
+                        }
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        required
+                        disabled={!isImageUploaded}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Sex
+                      </label>
+                      <select
+                        value={
+                          visaRequests.visaRequests.visaRequest[tabValue]
+                            .request.visa.sex
+                        }
+                        onChange={(e) =>
+                          handleFormChange(tabValue, "sex", e.target.value)
+                        }
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        required
+                        disabled={!isImageUploaded}
+                      >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Date of Birth
+                      </label>
+                      <input
+                        type="date"
+                        value={
+                          visaRequests.visaRequests.visaRequest[tabValue]
+                            .request.visa.dateOfBirth
+                            ? dayjs(
+                                visaRequests.visaRequests.visaRequest[tabValue]
+                                  .request.visa.dateOfBirth
+                              ).format("YYYY-MM-DD")
+                            : ""
+                        }
+                        onChange={(e) =>
+                          handleFormChange(
+                            tabValue,
+                            "dateOfBirth",
+                            e.target.value ? new Date(e.target.value) : ""
+                          )
+                        }
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        required
+                        disabled={!isImageUploaded}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Place of Birth
+                    </label>
                     <input
-                      type="date"
+                      type="text"
+                      placeholder="Place of Birth"
                       value={
                         visaRequests.visaRequests.visaRequest[tabValue].request
-                          .visa.issueDate
-                          ? dayjs(
-                              visaRequests.visaRequests.visaRequest[tabValue]
-                                .request.visa.issueDate
-                            ).format("YYYY-MM-DD")
-                          : ""
+                          .visa.placeOfBirth
                       }
                       onChange={(e) =>
                         handleFormChange(
                           tabValue,
-                          "issueDate",
-                          e.target.value ? new Date(e.target.value) : ""
+                          "placeOfBirth",
+                          e.target.value
                         )
                       }
-                      className="w-full p-2 border rounded"
-                      required
-                      disabled={!isImageUploaded}
-                    />
-                    <input
-                      type="date"
-                      value={
-                        visaRequests.visaRequests.visaRequest[tabValue].request
-                          .visa.expiryDate
-                          ? dayjs(
-                              visaRequests.visaRequests.visaRequest[tabValue]
-                                .request.visa.expiryDate
-                            ).format("YYYY-MM-DD")
-                          : ""
-                      }
-                      onChange={(e) =>
-                        handleFormChange(
-                          tabValue,
-                          "expiryDate",
-                          e.target.value ? new Date(e.target.value) : ""
-                        )
-                      }
-                      className="w-full p-2 border rounded"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
                       required
                       disabled={!isImageUploaded}
                     />
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Passport Issue Place"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.issuePlace
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "issuePlace", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Current Address Line 1"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.addressLine1
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "addressLine1", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Current Address Line 2"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.addressLine2
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "addressLine2", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <input
-                    type="text"
-                    placeholder="State"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.state
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "state", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <input
-                    type="text"
-                    placeholder="City"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.city
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "city", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Pincode"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.pincode
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "pincode", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Mobile Number"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.mobile
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "mobile", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    value={
-                      visaRequests.visaRequests.visaRequest[tabValue].request
-                        .visa.email
-                    }
-                    onChange={(e) =>
-                      handleFormChange(tabValue, "email", e.target.value)
-                    }
-                    className="w-full p-2 border rounded"
-                    required
-                    disabled={!isImageUploaded}
-                  />
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Issue Date
+                      </label>
+                      <input
+                        type="date"
+                        value={
+                          visaRequests.visaRequests.visaRequest[tabValue]
+                            .request.visa.issueDate
+                            ? dayjs(
+                                visaRequests.visaRequests.visaRequest[tabValue]
+                                  .request.visa.issueDate
+                              ).format("YYYY-MM-DD")
+                            : ""
+                        }
+                        onChange={(e) =>
+                          handleFormChange(
+                            tabValue,
+                            "issueDate",
+                            e.target.value ? new Date(e.target.value) : ""
+                          )
+                        }
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        required
+                        disabled={!isImageUploaded}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Expiry Date
+                      </label>
+                      <input
+                        type="date"
+                        value={
+                          visaRequests.visaRequests.visaRequest[tabValue]
+                            .request.visa.expiryDate
+                            ? dayjs(
+                                visaRequests.visaRequests.visaRequest[tabValue]
+                                  .request.visa.expiryDate
+                              ).format("YYYY-MM-DD")
+                            : ""
+                        }
+                        onChange={(e) =>
+                          handleFormChange(
+                            tabValue,
+                            "expiryDate",
+                            e.target.value ? new Date(e.target.value) : ""
+                          )
+                        }
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        required
+                        disabled={!isImageUploaded}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Passport Issue Place
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Passport Issue Place"
+                      value={
+                        visaRequests.visaRequests.visaRequest[tabValue].request
+                          .visa.issuePlace
+                      }
+                      onChange={(e) =>
+                        handleFormChange(tabValue, "issuePlace", e.target.value)
+                      }
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                      required
+                      disabled={!isImageUploaded}
+                    />
+                  </div>
+
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-700">
+                      Current Address
+                    </h3>
+                    <div className="space-y-4">
+                      <input
+                        type="text"
+                        placeholder="Address Line 1"
+                        value={
+                          visaRequests.visaRequests.visaRequest[tabValue]
+                            .request.visa.addressLine1
+                        }
+                        onChange={(e) =>
+                          handleFormChange(
+                            tabValue,
+                            "addressLine1",
+                            e.target.value
+                          )
+                        }
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        required
+                        disabled={!isImageUploaded}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Address Line 2"
+                        value={
+                          visaRequests.visaRequests.visaRequest[tabValue]
+                            .request.visa.addressLine2
+                        }
+                        onChange={(e) =>
+                          handleFormChange(
+                            tabValue,
+                            "addressLine2",
+                            e.target.value
+                          )
+                        }
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        required
+                        disabled={!isImageUploaded}
+                      />
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <input
+                          type="text"
+                          placeholder="State"
+                          value={
+                            visaRequests.visaRequests.visaRequest[tabValue]
+                              .request.visa.state
+                          }
+                          onChange={(e) =>
+                            handleFormChange(tabValue, "state", e.target.value)
+                          }
+                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                          required
+                          disabled={!isImageUploaded}
+                        />
+                        <input
+                          type="text"
+                          placeholder="City"
+                          value={
+                            visaRequests.visaRequests.visaRequest[tabValue]
+                              .request.visa.city
+                          }
+                          onChange={(e) =>
+                            handleFormChange(tabValue, "city", e.target.value)
+                          }
+                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                          required
+                          disabled={!isImageUploaded}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Pincode"
+                          value={
+                            visaRequests.visaRequests.visaRequest[tabValue]
+                              .request.visa.pincode
+                          }
+                          onChange={(e) =>
+                            handleFormChange(
+                              tabValue,
+                              "pincode",
+                              e.target.value
+                            )
+                          }
+                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                          required
+                          disabled={!isImageUploaded}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Mobile Number
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Mobile Number"
+                        value={
+                          visaRequests.visaRequests.visaRequest[tabValue]
+                            .request.visa.mobile
+                        }
+                        onChange={(e) =>
+                          handleFormChange(tabValue, "mobile", e.target.value)
+                        }
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        required
+                        disabled={!isImageUploaded}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        placeholder="Email Address"
+                        value={
+                          visaRequests.visaRequests.visaRequest[tabValue]
+                            .request.visa.email
+                        }
+                        onChange={(e) =>
+                          handleFormChange(tabValue, "email", e.target.value)
+                        }
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        required
+                        disabled={!isImageUploaded}
+                      />
+                    </div>
+                  </div>
+
                   <button
                     type="submit"
-                    className="w-full bg-blue-500 text-white p-2 rounded"
-                    onClick={() => {
-                      if (!isDateRangeSelected && isImageUploaded) {
-                        toast("Please select departure and arrival date.");
-                      }
-                      console.log(visaRequests);
-                    }}
+                    className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                     disabled={!isImageUploaded}
                   >
-                    Submit
+                    Submit Application
                   </button>
                 </form>
               </>

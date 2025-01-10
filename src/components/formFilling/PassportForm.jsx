@@ -90,8 +90,9 @@ const PassportForm = () => {
 
   const handleImageUpload = async (e, index, type) => {
     const file = e.target.files[0];
-    if (file) {
       toast("please wait our AI is filling the form ");
+    if (file) {
+     
       const reader = new FileReader();
       reader.onload = () => {
         const updatedTravelers = travelers.map((traveler, i) =>
@@ -133,9 +134,11 @@ const PassportForm = () => {
                   formData: {
                     ...traveler.formData,
                     givenName:
-                      apiData.given_names?.value || traveler.formData.givenName ,
+                      apiData.given_names?.value ||
+                      traveler.formData.givenName ||
+                      "",
                     surname:
-                      apiData.surname?.value || traveler.formData.surname,
+                      apiData.surname?.value || traveler.formData.surname || "",
                     sex:
                       apiData.gender?.value === "M"
                         ? "Male"
@@ -149,7 +152,8 @@ const PassportForm = () => {
                       : traveler.formData.dateOfBirth || "",
                     placeOfBirth:
                       apiData.birth_place?.value ||
-                      traveler.formData.placeOfBirth,
+                      traveler.formData.placeOfBirth ||
+                      "",
                     issueDate: apiData.issuance_date?.value
                       ? new Date(apiData.issuance_date.value)
                           .toISOString()
@@ -164,18 +168,25 @@ const PassportForm = () => {
                       apiData.issuance_place?.value ||
                       traveler.formData.issuePlace,
                     addressLine1:
-                      apiData.address1?.value || traveler.formData.addressLine1,
+                      apiData.address1?.value ||
+                      traveler.formData.addressLine1 ||
+                      "",
                     addressLine2:
-                      apiData.address2?.value || traveler.formData.addressLine2,
+                      apiData.address2?.value ||
+                      traveler.formData.addressLine2 ||
+                      "",
                     state:
                       apiData.address3?.value?.split(",")[1]?.trim() ||
-                      traveler.formData.state,
+                      traveler.formData.state ||
+                      "",
                     city:
                       apiData.address3?.value?.split(",")[0]?.trim() ||
-                      traveler.formData.issuance_place,
+                      traveler.formData.issuance_place ||
+                      "",
                     pincode:
                       apiData.address3?.value?.split(",")[2]?.trim() ||
-                      traveler.formData.pincode,
+                      traveler.formData.pincode ||
+                      "",
                   },
                   passportFront: traveler.passportFront,
                   passportBack: traveler.passportBack,

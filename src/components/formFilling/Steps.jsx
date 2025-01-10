@@ -2,6 +2,7 @@
 import * as React from "react";
 
 import PassportForm from "./PassportForm";
+import UploadDocuments from "./UploadDocument";
 import { Box } from "@mui/material";
 
 export default function Steps() {
@@ -14,6 +15,7 @@ export default function Steps() {
   return (
     <Box>
       <PassportForm />
+      <UploadDocuments/>
     </Box>
   );
 }

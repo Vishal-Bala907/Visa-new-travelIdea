@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { addVisaRequest } from "../redux/slices/VisaRequest";
 
+
 const VITE_API_URL = "4930ac1890fc6034c92921a12f9b6e65";
 
 const initialVisaRequestsState = {
@@ -54,7 +55,6 @@ const initialVisaRequestsState = {
 };
 
 const PassportForm = ({ purposeOfVisit }) => {
-  const dispatch = useDispatch();
   const [visaRequests, setVisaRequests] = useState(initialVisaRequestsState);
   const [tabValue, setTabValue] = useState(0);
   const [dateRange, setDateRange] = useState([
@@ -67,6 +67,8 @@ const PassportForm = ({ purposeOfVisit }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isImageUploaded, setIsImageUploaded] = useState(false);
   const [isDateRangeSelected, setIsDateRangeSelected] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleTabChange = (newValue) => setTabValue(newValue);
 
@@ -331,7 +333,7 @@ const PassportForm = ({ purposeOfVisit }) => {
       return;
     }
 
-    console.log(visaRequests.visaRequests);
+    // Dispatch the action to save the visa request details in Redux
     dispatch(addVisaRequest(visaRequests.visaRequests));
 
     toast("Visa request submitted successfully!");

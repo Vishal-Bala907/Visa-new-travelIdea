@@ -3,12 +3,20 @@ import { useSelector } from "react-redux";
 import { Upload } from "lucide-react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Image from "next/image";
-
+import { useDispatch } from "react-redux";
+import { addVisaRequest } from "../redux/slices"
 const UploadDocument = ({ setStage }) => {
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
-  const usernames = visaRequests?.visaRequest?.map(
+  const firstname = visaRequests?.visaRequest?.map(
     (item) => item?.request?.visa?.givenName
   );
+  const lastname = visaRequests?.visaRequest?.map(
+    (item) => item?.request?.visa?.surname
+  );
+  const usernames = firstname.map(
+    (name, index) => name + " " + lastname[index]
+  );
+  // console.log(usernames);
   const dummylabels = ["Passport", "Visa", "Photo", "Aadhar", "Other"];
   const [activeTab, setActiveTab] = useState(usernames[0]);
   const [uploadedFiles, setUploadedFiles] = useState({});
@@ -69,56 +77,58 @@ const UploadDocument = ({ setStage }) => {
             className={`${activeTab === username ? "block" : "hidden"}`}
           >
             <div className="bg-white rounded-lg shadow p-6">
-              {dummylabels.map((docType) => (
-                <div
-                  key={docType}
-                  className="flex flex-col items-center gap-4 mb-6"
-                >
-                  <h2 className="text-lg font-medium">{docType}</h2>
-                  {/* Upload Area */}
-                  {!uploadedFiles[username]?.[docType] ? (
-                    <div className="w-full">
-                      <label
-                        htmlFor={`file-${username}-${docType}`}
-                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-150"
-                      >
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <Upload className="w-8 h-8 mb-2 text-gray-500" />
-                          <p className="mb-2 text-sm text-gray-500">
-                            Click to upload or drag and drop
-                          </p>
-                        </div>
-                        <input
-                          id={`file-${username}-${docType}`}
-                          type="file"
-                          className="hidden"
-                          onChange={(e) =>
-                            handleFileChange(username, docType, e)
-                          }
+              <div className="flex flex-wrap gap-4">
+                {dummylabels.map((docType) => (
+                  <div
+                    key={docType}
+                    className="flex flex-col items-center gap-4 mb-6"
+                  >
+                    <h2 className="text-lg font-medium">{docType}</h2>
+                    {/* Upload Area */}
+                    {!uploadedFiles[username]?.[docType] ? (
+                      <div className="w-full">
+                        <label
+                          htmlFor={`file-${username}-${docType}`}
+                          className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-150"
+                        >
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <Upload className="w-8 h-8 mb-2 text-gray-500" />
+                            <p className="mb-2 text-sm text-gray-500">
+                              Click to upload or drag and drop
+                            </p>
+                          </div>
+                          <input
+                            id={`file-${username}-${docType}`}
+                            type="file"
+                            className="hidden"
+                            onChange={(e) =>
+                              handleFileChange(username, docType, e)
+                            }
+                          />
+                        </label>
+                      </div>
+                    ) : (
+                      <div className="relative mt-4">
+                        <Image
+                          src={URL.createObjectURL(
+                            uploadedFiles[username][docType]
+                          )}
+                          alt="Uploaded"
+                          width={128}
+                          height={128}
+                          className="w-32 h-32 object-cover rounded-lg"
                         />
-                      </label>
-                    </div>
-                  ) : (
-                    <div className="relative mt-4">
-                      <Image
-                        src={URL.createObjectURL(
-                          uploadedFiles[username][docType]
-                        )}
-                        alt="Uploaded"
-                        width={128}
-                        height={128}
-                        className="w-32 h-32 object-cover rounded-lg"
-                      />
-                      <button
-                        onClick={() => handleDeleteImage(username, docType)}
-                        className="absolute top-0 right-0 p-1 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors duration-150"
-                      >
-                        <FaRegTrashAlt className="w-4 h-4" />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ))}
+                        <button
+                          onClick={() => handleDeleteImage(username, docType)}
+                          className="absolute top-0 right-0 p-1 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors duration-150"
+                        >
+                          <FaRegTrashAlt className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
               <button
                 onClick={handleSaveDetails}
                 className="mt-4 w-full py-2 px-4 rounded-md text-white bg-green-500 hover:bg-green-600 font-medium transition-colors duration-150"

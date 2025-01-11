@@ -3,6 +3,7 @@ import * as React from "react";
 
 import PassportForm from "./PassportForm";
 import UploadDocuments from "./UploadDocument";
+import Makepayement from "./MakePayment";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 export default function Steps() {
@@ -18,7 +19,7 @@ export default function Steps() {
     <Box>
       <PassportForm />
       {visaRequests.length > 0 && <UploadDocuments />}
-      
+      <Makepayement />
     </Box>
   );
 }

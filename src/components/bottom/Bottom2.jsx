@@ -23,7 +23,7 @@ const Bottom2 = () => {
             <div className="primary-button relative flex cursor-pointer items-center justify-center rounded-md px-7 py-3 w-50 h-full bg-[#0052cc]">
               {" "}
               <p className="h-fit font-semibold text-white opacity-90 undefined">
-                Join Teleport
+                Join Travelidea
               </p>
             </div>
           </a>

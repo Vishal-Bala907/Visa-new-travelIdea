@@ -4,7 +4,7 @@ import { Upload } from "lucide-react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { addVisaRequest } from "../redux/slices"
+import { addVisaRequest } from "../redux/slices/VisaRequest";
 const UploadDocument = ({ setStage }) => {
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
   const firstname = visaRequests?.visaRequest?.map(

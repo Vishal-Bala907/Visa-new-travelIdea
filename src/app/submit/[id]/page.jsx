@@ -10,7 +10,7 @@ const page = async ({ params }) => {
     <div>
       <StepsHeader />
       <div>
-        {id}
+        {/* {id} */}
         <Steps />
       </div>
       {/* <IoPersonCircle

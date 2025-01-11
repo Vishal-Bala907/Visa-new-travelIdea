@@ -10,8 +10,9 @@ import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { addVisaRequest } from "../redux/slices/VisaRequest";
 import "react-toastify/dist/ReactToastify.css";
-//const VITE_API_URL = "3208bd0409cbf015ecb66edda3b32b2d";
-const VITE_API_URL = "";
+import './PassportForm.css';
+const VITE_API_URL = "3208bd0409cbf015ecb66edda3b32b2d";
+//const VITE_API_URL = "";
 
 const initialVisaRequestsState = {
   purposeOfVisit: "",
@@ -52,7 +53,7 @@ const initialVisaRequestsState = {
   loading: false,
 };
 
-const PassportForm = ({ purposeOfVisit }) => {
+const PassportForm = ({ purposeOfVisit, setStage }) => {
   const [visaRequests, setVisaRequests] = useState(initialVisaRequestsState);
   const [tabValue, setTabValue] = useState(0);
   const [dateRange, setDateRange] = useState([
@@ -309,7 +310,7 @@ const handleSubmit = () => {
     toast("Please select departure and arrival date.");
     return;
   }
-
+  setStage(2);
   const serializableVisaRequests = {
     ...visaRequests,
     startDate: visaRequests.startDate.toISOString(),

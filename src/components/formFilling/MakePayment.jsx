@@ -2,6 +2,8 @@ import React from "react";
 import Script from "next/script";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 
 const MakePayment = () => {
   const handlePayment = () => {
@@ -52,21 +54,28 @@ const MakePayment = () => {
         src="https://checkout.razorpay.com/v1/checkout.js"
         strategy="lazyOnload"
       />
-
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-         minHeight="4vh"
-         
-      >
-        <div>
-          <h1>Make Payment</h1>
-          <Button variant="contained" color="primary" onClick={handlePayment}>
+      <Container maxWidth="sm">
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="50vh"
+          mt={10}
+        >
+          <Typography variant="h4" component="h1" gutterBottom>
             Make Payment
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handlePayment}
+            style={{ marginTop: "20px" }}
+          >
+            Pay 500
           </Button>
-        </div>
-      </Box>
+        </Box>
+      </Container>
     </>
   );
 };

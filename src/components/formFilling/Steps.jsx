@@ -4,6 +4,7 @@ import * as React from "react";
 import PassportForm from "./PassportForm";
 import UploadDocuments from "./UploadDocument";
 import Makepayement from "./MakePayment";
+import AddVistDetails from "./AddVisitDetails";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 export default function Steps() {
@@ -15,11 +16,14 @@ export default function Steps() {
     setExpanded((prevExpanded) => !prevExpanded);
   };
 
+  const [stage, setStage] = React.useState(1);
+  console.log("stage", stage);
   return (
     <Box>
-      <PassportForm />
-      {visaRequests.length > 0 && <UploadDocuments />}
-      <Makepayement />
+      <PassportForm setStage={setStage} />
+      {stage >= 2 ? <AddVistDetails setStage={setStage} /> : ""}
+      {stage >= 3 ? <UploadDocuments setStage={setStage} /> : ""}
+      {stage >= 4 ? <Makepayement setStage={setStage} /> : ""}
     </Box>
   );
 }

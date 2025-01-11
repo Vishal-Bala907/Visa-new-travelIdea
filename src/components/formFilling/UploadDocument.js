@@ -5,8 +5,8 @@ import { Upload } from 'lucide-react';
 const UploadDocument = () => {
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
 console.log("visaRequests", visaRequests.visaRequest);
-  const usernames = visaRequests.visaRequest.map(
-    (item) => item.request.visa.givenName
+  const usernames = visaRequests?.visaRequest?.map(
+    (item) => item?.request?.visa?.givenName
   );
   const dummylabels =[ "Passport", "Visa", "Photo","Aadhar", "Other"];
   const [activeTab, setActiveTab] = useState(usernames[0]);

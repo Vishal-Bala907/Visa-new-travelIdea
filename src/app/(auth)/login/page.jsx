@@ -43,7 +43,7 @@ const page = () => {
         <section className="flex h-full flex-col items-center justify-center gap-4">
           <div className="font-bold text-center xxxs:text-[17px] sm:text-xl lg:text-2xl">
             <p className="font-lexend">1,00,000+ people like you trust</p>
-            <p>Teleport for their visa application</p>
+            <p>Travelidea for their visa application</p>
           </div>
           1{" "}
           <div className="flex gap-2 xxxs:hidden md:flex">
@@ -112,11 +112,6 @@ const page = () => {
 
       {/* <!-- Right Content --> */}
       <main className="rounded-xl border bg-white p-8 xxxs:w-11/12 md:w-1/2 lg:w-96">
-        {/* <img
-          src="https://teleportvisa.cdn.bubble.io/f1672577179615x535619222938318500/eclippse.svg"
-          alt="Teleport logo"
-          className="mx-auto mb-4 md:mb-10"
-        /> */}
         <p className="mb-2 text-center text-xl font-semibold">
           Welcome to Travel-Idea
         </p>
@@ -152,10 +147,7 @@ const page = () => {
         </form>
         <div className="mt-2 text-center text-xs">
           By continuing, you agree to our
-          <a
-            href="https://useteleport.com/terms-and-conditions"
-            className="text-blue-500"
-          >
+          <a href="" className="text-blue-500">
             terms & conditions
           </a>
         </div>

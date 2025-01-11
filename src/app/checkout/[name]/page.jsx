@@ -3,19 +3,19 @@ import Hero3 from "../../../components/hero/Hero3";
 import VisaCard from "../../../components/visaCard/VisaCard";
 import Testimonials from "../../../components/testimonials/Testimonials";
 import FrequentlyAskedQuestions from "../../../components/faq/FrequentlyAskedQuestions";
-import { useSelector } from "react-redux";
 
-const page = async ({ params }) => {
-  const { name } = await params;
+const Page = ({ params }) => {
+  const { name } = params;
+  const formattedName = name.replaceAll("%20", " ");
 
   return (
     <div>
-      <Hero3 name={name} />
-      <VisaCard name={name} />
+      <Hero3 name={formattedName} />
+      <VisaCard name={formattedName} />
       <Testimonials />
       <FrequentlyAskedQuestions />
     </div>
   );
 };
 
-export default page;
+export default Page;

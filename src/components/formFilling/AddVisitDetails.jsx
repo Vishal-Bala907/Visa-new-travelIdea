@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import { TextareaAutosize } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { addVisaRequest } from "../redux/slices/VisaRequest";
 
 function AddVisitDetails({ setStage }) {
-  const handleSubmit = () => {
-    setStage(3); 
+  const [visitDetails, setVisitDetails] = useState(""); // State for the textarea input
+  const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
+  // console.log("visaRequests ", visaRequests);
+  const dispatch = useDispatch();
+
+  const handleSubmit = async () => {
+    await setStage(3);
+    // Dispatch the action to update purposeOfVisit in Redux
+    dispatch(addVisaRequest({ ...visaRequests, purposeOfVisit: visitDetails }));
+    // const visaRequests2 = useSelector((state) => state.visaRequest.visaRequests);
+    // console.log("visaRequests2 ", visaRequests2);
   };
 
   return (
@@ -26,13 +37,18 @@ function AddVisitDetails({ setStage }) {
         borderRadius={4}
       >
         <h2 className="text-xl font-semibold mb-4">Reason to Visit</h2>
-        <TextField
-          fullWidth
-          multiline
-          rows={4}
-          variant="outlined"
+        <TextareaAutosize
+          minRows={4}
           placeholder="Enter visit details here..."
-          margin="normal"
+          value={visitDetails}
+          onChange={(e) => setVisitDetails(e.target.value)} // Update state on input change
+          style={{
+            width: "100%",
+            fontSize: "16px",
+            padding: "10px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+          }}
         />
         <Button onClick={handleSubmit} variant="contained" color="primary">
           Submit Details

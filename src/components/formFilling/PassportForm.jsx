@@ -127,7 +127,7 @@ const PassportForm = ({ purposeOfVisit, setStage }) => {
 
   const handleImageUpload = async (e, index, type) => {
     const file = e.target.files[0];
-    toast("Please wait, our AI is filling the form.");
+    toast("Please wait, our AI is filling the form.", { autoClose: 3000 });
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -307,7 +307,7 @@ const PassportForm = ({ purposeOfVisit, setStage }) => {
 
 const handleSubmit = () => {
   if (!isDateRangeSelected && isImageUploaded) {
-    toast("Please select departure and arrival date.");
+    toast("Please select departure and arrival date.", { autoClose: 3000 });
     return;
   }
   setStage(2);
@@ -330,13 +330,13 @@ const handleSubmit = () => {
   };
 
   dispatch(addVisaRequest(serializableVisaRequests));
-  toast("Visa request submitted successfully!");
+  toast("Visa request submitted successfully!", { autoClose: 3000 });
 };
 
 
   return (
     <div className="p-4">
-      <ToastContainer />
+      <ToastContainer autoClose={3000} limit={1} />
       <div className="flex justify-center mb-8">
         <div className="date-range-picker-container">
           <div className="flex flex-wrap flex-col md:flex-row">
@@ -414,7 +414,7 @@ const handleSubmit = () => {
                 tabValue === index ? "bg-blue-500 text-white" : "bg-gray-200"
               }`}
             >
-              {`Traveler ${index + 1}`}
+              {`Traveller ${index + 1}`}
               {index !== 0 && (
                 <span
                   onClick={(e) => {

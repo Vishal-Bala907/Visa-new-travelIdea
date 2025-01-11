@@ -17,7 +17,14 @@ const UploadDocument = ({ setStage }) => {
     (name, index) => name + " " + lastname[index]
   );
   // console.log(usernames);
-  const dummylabels = ["Passport", "Visa", "Photo", "Aadhar", "Other"];
+  const dummylabels = [
+    "Passport",
+    "Proof of Financial Means",
+    "Photo",
+    "Aadhar",
+    "Travel Itinerary",
+    "Invitation Letter",
+  ];
   const [activeTab, setActiveTab] = useState(usernames[0]);
   const [uploadedFiles, setUploadedFiles] = useState({});
 
@@ -31,6 +38,7 @@ const UploadDocument = ({ setStage }) => {
           [docType]: file,
         },
       }));
+      console.log('uploaded files',uploadedFiles);
     }
   };
 

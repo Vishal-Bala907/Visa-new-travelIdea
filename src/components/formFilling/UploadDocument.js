@@ -54,6 +54,7 @@ const UploadDocument = ({ setStage }) => {
 
   const handleSaveDetails = () => {
     setStage(4);
+    console.log("uploadedFiles", uploadedFiles);
   };
 
   return (

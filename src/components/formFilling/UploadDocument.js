@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Upload } from "lucide-react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
-import { addVisaRequest } from "../redux/slices/VisaRequest";
+import { addVisaRequest } from "../redux/slices/VisaRequest"; // Import the necessary action
 
 const UploadDocument = ({ setStage }) => {
+  const dispatch = useDispatch();
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
   const firstname = visaRequests?.visaRequest?.map(
     (item) => item?.request?.visa?.givenName
@@ -53,10 +53,53 @@ const UploadDocument = ({ setStage }) => {
     });
   };
 
-  const handleSaveDetails = () => {
+  const handleSaveDetails = async () => {
+    // Create a deep copy of the visaRequests object
+    const updatedVisaRequests = JSON.parse(JSON.stringify(visaRequests));
+
+    // Function to convert a file to Base64
+    const fileToBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    };
+
+    // Iterate over the uploadedFiles and update the docs array
+    for (const index of Object.keys(uploadedFiles)) {
+      const userIndex = parseInt(index);
+      const userDocs = uploadedFiles[userIndex];
+
+      for (const docType of Object.keys(userDocs)) {
+        const file = userDocs[docType];
+
+        try {
+          // Convert the file to Base64
+          const base64Image = await fileToBase64(file);
+
+          // Create a new doc entry
+          const docEntry = {
+            name: docType,
+            image: base64Image, // Store the Base64 string
+          };
+
+          // Push the new doc entry into the docs array
+          updatedVisaRequests.visaRequest[userIndex].request.docs.push(
+            docEntry
+          );
+        } catch (error) {
+          console.error("Error converting file to Base64:", error);
+        }
+      }
+    }
+
+    // Dispatch the updated visaRequests to the Redux store
+    dispatch(addVisaRequest(updatedVisaRequests));
+
+    // Move to the next stage
     setStage(4);
-    console.log("uploadedFiles", uploadedFiles);
-    
   };
 
   // Use useEffect to log the updated state

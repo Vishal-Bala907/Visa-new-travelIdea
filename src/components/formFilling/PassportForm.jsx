@@ -11,13 +11,13 @@ import { useDispatch } from "react-redux";
 import { addVisaRequest } from "../redux/slices/VisaRequest";
 import "react-toastify/dist/ReactToastify.css";
 import './PassportForm.css';
-const VITE_API_URL = "4930ac1890fc6034c92921a12f9b6e65";
-//const VITE_API_URL = "";
+//const VITE_API_URL = "4930ac1890fc6034c92921a12f9b6e65";
+const VITE_API_URL = "";
 
 const initialVisaRequestsState = {
   purposeOfVisit: "",
-  startDate: new Date(), // Store as Date object
-  endDate: new Date(), // Store as Date object
+  startDate: new Date(), 
+  endDate: new Date(), 
   visaRequest: [
     {
       request: {
@@ -28,8 +28,8 @@ const initialVisaRequestsState = {
           sex: "",
           dateOfBirth: new Date(),
           placeOfBirth: "",
-          issueDate: new Date(), // Store as Date object
-          expiryDate: new Date(), // Store as Date object
+          issueDate: new Date(), 
+          expiryDate: new Date(),
           issuePlace: "",
           addressLine1: "",
           addressLine2: "",

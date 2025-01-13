@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Upload } from "lucide-react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { addVisaRequest } from "../redux/slices/VisaRequest";
+
 const UploadDocument = ({ setStage }) => {
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
   const firstname = visaRequests?.visaRequest?.map(
@@ -16,7 +17,7 @@ const UploadDocument = ({ setStage }) => {
   const usernames = firstname.map(
     (name, index) => name + " " + lastname[index]
   );
-  // console.log(usernames);
+
   const dummylabels = [
     "Passport",
     "Proof of Financial Means",
@@ -25,28 +26,28 @@ const UploadDocument = ({ setStage }) => {
     "Travel Itinerary",
     "Invitation Letter",
   ];
-  const [activeTab, setActiveTab] = useState(usernames[0]);
+
+  const [activeTab, setActiveTab] = useState(0); // Use index for activeTab
   const [uploadedFiles, setUploadedFiles] = useState({});
 
-  const handleFileChange = (username, docType, e) => {
+  const handleFileChange = (index, docType, e) => {
     const file = e.target.files[0];
     if (file) {
       setUploadedFiles((prev) => ({
         ...prev,
-        [username]: {
-          ...prev[username],
+        [index]: {
+          ...prev[index],
           [docType]: file,
         },
       }));
-      console.log('uploaded files',uploadedFiles);
     }
   };
 
-  const handleDeleteImage = (username, docType) => {
+  const handleDeleteImage = (index, docType) => {
     setUploadedFiles((prev) => {
       const newFiles = { ...prev };
-      if (newFiles[username]) {
-        delete newFiles[username][docType];
+      if (newFiles[index]) {
+        delete newFiles[index][docType];
       }
       return newFiles;
     });
@@ -55,7 +56,13 @@ const UploadDocument = ({ setStage }) => {
   const handleSaveDetails = () => {
     setStage(4);
     console.log("uploadedFiles", uploadedFiles);
+    
   };
+
+  // Use useEffect to log the updated state
+  useEffect(() => {
+    console.log("uploaded files", uploadedFiles);
+  }, [uploadedFiles]);
 
   return (
     <div className="w-full max-w-3xl mx-auto p-4">
@@ -63,12 +70,12 @@ const UploadDocument = ({ setStage }) => {
       {/* Tabs */}
       <div className="mb-4">
         <div className="flex border-b">
-          {usernames.map((label) => (
+          {usernames.map((label, index) => (
             <button
-              key={label}
-              onClick={() => setActiveTab(label)}
+              key={index}
+              onClick={() => setActiveTab(index)}
               className={`py-2 px-4 text-sm font-medium ${
-                activeTab === label
+                activeTab === index
                   ? "border-b-2 border-blue-500 text-blue-600"
                   : "text-gray-500 hover:text-gray-700"
               }`}
@@ -80,10 +87,10 @@ const UploadDocument = ({ setStage }) => {
       </div>
       {/* Tab Content */}
       <div className="mt-4">
-        {usernames.map((username) => (
+        {usernames.map((username, index) => (
           <div
-            key={username}
-            className={`${activeTab === username ? "block" : "hidden"}`}
+            key={index}
+            className={`${activeTab === index ? "block" : "hidden"}`}
           >
             <div className="bg-white rounded-lg shadow p-6">
               <div className="flex flex-wrap gap-4">
@@ -94,10 +101,10 @@ const UploadDocument = ({ setStage }) => {
                   >
                     <h2 className="text-lg font-medium">{docType}</h2>
                     {/* Upload Area */}
-                    {!uploadedFiles[username]?.[docType] ? (
+                    {!uploadedFiles[index]?.[docType] ? (
                       <div className="w-full">
                         <label
-                          htmlFor={`file-${username}-${docType}`}
+                          htmlFor={`file-${index}-${docType}`}
                           className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-150"
                         >
                           <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -107,11 +114,11 @@ const UploadDocument = ({ setStage }) => {
                             </p>
                           </div>
                           <input
-                            id={`file-${username}-${docType}`}
+                            id={`file-${index}-${docType}`}
                             type="file"
                             className="hidden"
                             onChange={(e) =>
-                              handleFileChange(username, docType, e)
+                              handleFileChange(index, docType, e)
                             }
                           />
                         </label>
@@ -120,7 +127,7 @@ const UploadDocument = ({ setStage }) => {
                       <div className="relative mt-4">
                         <Image
                           src={URL.createObjectURL(
-                            uploadedFiles[username][docType]
+                            uploadedFiles[index][docType]
                           )}
                           alt="Uploaded"
                           width={128}
@@ -128,7 +135,7 @@ const UploadDocument = ({ setStage }) => {
                           className="w-32 h-32 object-cover rounded-lg"
                         />
                         <button
-                          onClick={() => handleDeleteImage(username, docType)}
+                          onClick={() => handleDeleteImage(index, docType)}
                           className="absolute top-0 right-0 p-1 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors duration-150"
                         >
                           <FaRegTrashAlt className="w-4 h-4" />

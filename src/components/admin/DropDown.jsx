@@ -31,7 +31,7 @@ const DropDown = () => {
         onChange={handleChange}
       >
         <MenuItem value={"add-visa"}>Add Visa</MenuItem>
-        <MenuItem value={"twenty"}>Twenty</MenuItem>
+        <MenuItem value={"dsb"}>Dashboard</MenuItem>
         <MenuItem value={"thirty"}>Thirty</MenuItem>
       </Select>
     </FormControl>

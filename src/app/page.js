@@ -21,7 +21,8 @@ export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const TOKEN = JSON.parse(localStorage.getItem("token"));
+    const TOKEN = localStorage.getItem("token");
+    console.log(TOKEN);
     if (!TOKEN) {
       router.push("/login");
     } else {
@@ -45,7 +46,7 @@ export default function Home() {
       });
 
     // fethc all the visas
-  }, [router]);
+  }, []);
 
   return (
     <Provider store={store}>

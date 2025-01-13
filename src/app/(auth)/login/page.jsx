@@ -20,7 +20,7 @@ const page = () => {
     }
     loginHandler({ mobileNumber })
       .then((data) => {
-        localStorage.setItem("token", JSON.stringify(data.token));
+        localStorage.setItem("token", data.token);
         dispatch(
           loginUser({
             name: data.userName,

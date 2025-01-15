@@ -4,8 +4,8 @@ import VisaCard from "../../../components/visaCard/VisaCard";
 import Testimonials from "../../../components/testimonials/Testimonials";
 import FrequentlyAskedQuestions from "../../../components/faq/FrequentlyAskedQuestions";
 
-const Page = ({ params }) => {
-  const { name } = params;
+const Page = async ({ params }) => {
+  const { name } = await  params;
   const formattedName = name.replaceAll("%20", " ");
 
   return (

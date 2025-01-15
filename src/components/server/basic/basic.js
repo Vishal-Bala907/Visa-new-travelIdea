@@ -10,6 +10,14 @@ export const getAllVisas = async () => {
   }
 };
 
+export const getCountryWiseVisa = async (countryname) => {
+  try {
+    const response = await apiClient.get(`/data/country/name/${countryname}`);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 export const getProfile = async () => {
   try {
     const response = await apiClient.get(`/data/profile`);

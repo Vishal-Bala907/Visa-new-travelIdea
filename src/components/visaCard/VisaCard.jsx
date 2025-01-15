@@ -2,11 +2,15 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { getCountryWiseVisa } from "../server/basic/basic";
 
 const VisaCard = ({ name }) => {
+ 
   const visaItems = useSelector((state) => state.visas.visas);
+  console.log('visaItems', visaItems);
   const [filteredVisaItems, setFilteredVisaItems] = useState([]);
-
+  getCountryWiseVisa(name).then((data) => {console.log('country wise api data', data);}).catch((err) => {console.log('error', err);});
   // Filter visa items when `visaItems` or `name` changes
   useEffect(() => {
     const filter = visaItems.filter((item) => item.countyName === name);
@@ -35,26 +39,19 @@ const VisaCard = ({ name }) => {
           >
             All
           </div>
-          <div
-            className={`min-w-max cursor-pointer rounded-lg px-6 py-2 text-sm ${
-              selectedType === "TOURIST"
-                ? "bg-[#093258] text-white"
-                : "bg-slate-400"
-            }`}
-            onClick={() => setSelectedType("TOURIST")}
-          >
-            Tourist
-          </div>
-          <div
-            className={`min-w-max cursor-pointer rounded-lg px-6 py-2 text-sm ${
-              selectedType === "BUSINESS"
-                ? "bg-[#093258] text-white"
-                : "bg-slate-400"
-            }`}
-            onClick={() => setSelectedType("BUSINESS")}
-          >
-            Business
-          </div>
+        
+          {visaItems.map((key, value) => (
+            <div
+              className={`min-w-max cursor-pointer rounded-lg px-6 py-2 text-sm ${
+                selectedType === key.visaType
+                  ? "bg-[#093258] text-white"
+                  : "bg-slate-400"
+              }`}
+              onClick={() => setSelectedType(key.visaType)}
+            >
+              {key.visaType}
+            </div>
+          ))}
         </div>
         <div className="relative flex flex-col gap-y-3 md:gap-y-6">
           <section

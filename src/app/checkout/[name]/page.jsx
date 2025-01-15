@@ -3,6 +3,7 @@ import Hero3 from "../../../components/hero/Hero3";
 import VisaCard from "../../../components/visaCard/VisaCard";
 import Testimonials from "../../../components/testimonials/Testimonials";
 import FrequentlyAskedQuestions from "../../../components/faq/FrequentlyAskedQuestions";
+import RequiredDocs from "../../../components/docs/RequiredDocs";
 
 const Page = async ({ params }) => {
   const { name } = await params;
@@ -12,6 +13,7 @@ const Page = async ({ params }) => {
     <div>
       <Hero3 name={formattedName} />
       <VisaCard name={formattedName} />
+      <RequiredDocs name={formattedName} />
       <Testimonials />
       <FrequentlyAskedQuestions />
     </div>

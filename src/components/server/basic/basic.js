@@ -18,6 +18,14 @@ export const getCountryWiseVisa = async (countryname) => {
     throw err;
   }
 };
+export const getDocumentList = async (countryname) => {
+  try {
+    const response = await apiClient.get(`/data/doc/checklist/${countryname}`);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 export const getProfile = async () => {
   try {
     const response = await apiClient.get(`/data/profile`);

@@ -18,11 +18,6 @@ const VisaCard = ({ name }) => {
         console.log("error", err);
       });
   }, []);
-  // Filter visa items when `visaItems` or `name` changes
-  // useEffect(() => {
-  //   const filter = visaItems.filter((item) => item.countyName === name);
-  //   setFilteredVisaItems(filter);
-  // }, [visaItems, name]);
 
   const [selectedType, setSelectedType] = useState("ALL");
 

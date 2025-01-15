@@ -144,7 +144,7 @@ const Testimonials = () => {
                         />
                       </figure>
                       <p className="font-lexend text-xl font-medium leading-9 text-blue-950">
-                        Aditi
+                        Varun
                       </p>
                     </div>
                     <div>

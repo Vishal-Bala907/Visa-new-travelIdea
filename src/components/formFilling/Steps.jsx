@@ -15,10 +15,10 @@ import { FaLock, FaLockOpen } from "react-icons/fa6";
 
 export default function Steps() {
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
-  console.log("visaRequests", visaRequests);
+  // console.log("visaRequests", visaRequests);
 
   const [stage, setStage] = React.useState(1);
-  console.log("stage", stage);
+  // console.log("stage", stage);
   return (
     <Box className="w-full max-w-4xl mx-auto p-4">
       <Accordion expanded={stage >= 1}>

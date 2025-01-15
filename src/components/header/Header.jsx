@@ -27,7 +27,7 @@ const Header = () => {
 
         <div className="flex justify-center flex-row flex-wrap  items-center">
           {role === "ROLE_ADMIN" && <DropDown />}
-          <div className=" w-fit flex justify-center flex-row items-center gap-3 px-3 py-2 rounded-[20px] bg-blue-100 justify">
+          {/* <div className=" w-fit flex justify-center flex-row items-center gap-3 px-3 py-2 rounded-[20px] bg-blue-100 justify">
             <img
               className="max-w-[15px] max-h-[15px]"
               src="/img/general/earth.png"
@@ -36,7 +36,7 @@ const Header = () => {
             <a href="/agents" className="text-gray-600 hover:text-blue-500">
               For Agents
             </a>
-          </div>
+          </div> */}
           <div className=" w-fit flex justify-center flex-row items-center gap-3 px-3">
             <img
               className="max-w-[15px] max-h-[15px]"

@@ -6,18 +6,30 @@ import axios from "axios";
 import { getCountryWiseVisa } from "../server/basic/basic";
 
 const VisaCard = ({ name }) => {
-  const visaItems = useSelector((state) => state.visas.visas);
-  // console.log('visaItems', visaItems);
+  const [visaItems, setVisaItems] = useState([]);
+
+  //setVisaItems(useSelector((state) => state.visas.visas));
+  // var visaItems ='';
+  // console.log(
+  //   "redux data",
+  //   useSelector((state) => state.visas.visas)
+  // );
   const [filteredVisaItems, setFilteredVisaItems] = useState([]);
   useEffect(() => {
     getCountryWiseVisa(name)
       .then((data) => {
-        setFilteredVisaItems(data);
+        setVisaItems(data);
+        console.log("data", data);
       })
       .catch((err) => {
         console.log("error", err);
       });
-  }, []);
+  }, [name]);
+  // Filter visa items when `visaItems` or `name` changes
+  useEffect(() => {
+    const filter = visaItems.filter((item) => item.countyName === name);
+    setFilteredVisaItems(filter);
+  }, [visaItems, name]);
 
   const [selectedType, setSelectedType] = useState("ALL");
 

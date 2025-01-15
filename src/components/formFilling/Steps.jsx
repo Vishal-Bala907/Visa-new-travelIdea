@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import * as React from "react";
 import PassportForm from "./PassportForm";
 import UploadDocument from "./UploadDocument";
@@ -13,17 +13,16 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FaLock, FaLockOpen } from "react-icons/fa6";
 
-export default function Steps() {
+export default function Steps({id}) {
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
   // console.log("visaRequests", visaRequests);
-
   const [stage, setStage] = React.useState(1);
   // console.log("stage", stage);
   return (
     <Box className="w-full max-w-4xl mx-auto p-4">
       <Accordion expanded={stage >= 1}>
         <AccordionSummary
-          expandIcon={stage >= 1 ? '' : <FaLock />}
+          expandIcon={stage >= 1 ? "" : <FaLock />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
@@ -36,7 +35,7 @@ export default function Steps() {
 
       <Accordion expanded={stage >= 2} disabled={stage < 2}>
         <AccordionSummary
-          expandIcon={stage >= 2 ? '' : <FaLock />}
+          expandIcon={stage >= 2 ? "" : <FaLock />}
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
@@ -49,20 +48,20 @@ export default function Steps() {
 
       <Accordion expanded={stage >= 3} disabled={stage < 3}>
         <AccordionSummary
-          expandIcon={stage >= 3 ? '' : <FaLock />}
+          expandIcon={stage >= 3 ? "" : <FaLock />}
           aria-controls="panel3a-content"
           id="panel3a-header"
         >
           <Typography>Step 3: Upload Documents</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {stage >= 3 && <UploadDocument setStage={setStage} />}
+          {stage >= 3 && <UploadDocument setStage={setStage} id={id} />}
         </AccordionDetails>
       </Accordion>
 
       <Accordion expanded={stage >= 4} disabled={stage < 4}>
         <AccordionSummary
-          expandIcon={stage >= 4 ? '' : <FaLock />}
+          expandIcon={stage >= 4 ? "" : <FaLock />}
           aria-controls="panel4a-content"
           id="panel4a-header"
         >

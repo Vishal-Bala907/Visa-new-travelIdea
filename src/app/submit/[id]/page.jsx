@@ -11,7 +11,7 @@ const page = async ({ params }) => {
       <StepsHeader />
       <div>
         {/* {id} */}
-        <Steps />
+        <Steps id={id} />
       </div>
       {/* <IoPersonCircle
         onClick={() => {

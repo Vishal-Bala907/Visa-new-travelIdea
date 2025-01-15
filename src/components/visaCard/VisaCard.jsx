@@ -19,7 +19,7 @@ const VisaCard = ({ name }) => {
     getCountryWiseVisa(name)
       .then((data) => {
     setVisaItems(data);
-    console.log("data", data);
+    // console.log("data", data);
       })
       .catch((err) => {
         console.log("error", err);
@@ -73,7 +73,7 @@ const VisaCard = ({ name }) => {
             border border-visa-card-bg gap-10"
           >
             {displayedVisas.map((data, idx) => (
-              <Card key={idx} data={data} />
+              <Card key={idx} data={data}  />
             ))}
           </section>
         </div>

@@ -5,8 +5,9 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import Image from "next/image";
 import { addVisaRequest } from "../redux/slices/VisaRequest"; // Import the necessary action
 
-const UploadDocument = ({ setStage }) => {
+const UploadDocument = ({ setStage, id = 2 }) => {
   const dispatch = useDispatch();
+  const [visas, setVisas] = useState();
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
   const firstname = visaRequests?.visaRequest?.map(
     (item) => item?.request?.visa?.givenName
@@ -18,6 +19,13 @@ const UploadDocument = ({ setStage }) => {
     (name, index) => name + " " + lastname[index]
   );
 
+  setVisas(useSelector((state) => state.visas.visas));
+  console.log("visas", visas);
+  const visabyId = visas.find((item) => {
+    return item.id === id;
+  });
+  console.log("visas by id", visabyId);
+  console.log("id", id);
   const dummylabels = [
     "Passport",
     "Proof of Financial Means",

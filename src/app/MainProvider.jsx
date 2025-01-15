@@ -1,8 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
-import store from "../components/redux/configStore";
+import store, { persistor } from "../components/redux/configStore";
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 const MainProvider = ({ children }) => {
   const router = useRouter();
@@ -14,7 +15,13 @@ const MainProvider = ({ children }) => {
       router.push("/login");
     }
   }, [router]);
-  return <Provider store={store}>{children}</Provider>;
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        {children}
+      </PersistGate>
+    </Provider>
+  );
 };
 
 export default MainProvider;

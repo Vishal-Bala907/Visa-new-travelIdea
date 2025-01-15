@@ -6,16 +6,23 @@ import axios from "axios";
 import { getCountryWiseVisa } from "../server/basic/basic";
 
 const VisaCard = ({ name }) => {
- 
   const visaItems = useSelector((state) => state.visas.visas);
-  console.log('visaItems', visaItems);
+  // console.log('visaItems', visaItems);
   const [filteredVisaItems, setFilteredVisaItems] = useState([]);
-  getCountryWiseVisa(name).then((data) => {console.log('country wise api data', data);}).catch((err) => {console.log('error', err);});
-  // Filter visa items when `visaItems` or `name` changes
   useEffect(() => {
-    const filter = visaItems.filter((item) => item.countyName === name);
-    setFilteredVisaItems(filter);
-  }, [visaItems, name]);
+    getCountryWiseVisa(name)
+      .then((data) => {
+        setFilteredVisaItems(data);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  }, []);
+  // Filter visa items when `visaItems` or `name` changes
+  // useEffect(() => {
+  //   const filter = visaItems.filter((item) => item.countyName === name);
+  //   setFilteredVisaItems(filter);
+  // }, [visaItems, name]);
 
   const [selectedType, setSelectedType] = useState("ALL");
 
@@ -39,7 +46,7 @@ const VisaCard = ({ name }) => {
           >
             All
           </div>
-        
+
           {visaItems.map((key, value) => (
             <div
               className={`min-w-max cursor-pointer rounded-lg px-6 py-2 text-sm ${

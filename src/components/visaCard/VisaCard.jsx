@@ -8,7 +8,7 @@ import { getCountryWiseVisa } from "../server/basic/basic";
 const VisaCard = ({ name }) => {
   const [visaItems, setVisaItems] = useState([]);
 
-   //setVisaItems(useSelector((state) => state.visas.visas)); 
+  //setVisaItems(useSelector((state) => state.visas.visas));
   // var visaItems ='';
   // console.log(
   //   "redux data",
@@ -18,8 +18,8 @@ const VisaCard = ({ name }) => {
   useEffect(() => {
     getCountryWiseVisa(name)
       .then((data) => {
-    setVisaItems(data);
-    // console.log("data", data);
+        setVisaItems(data);
+        console.log("data", data);
       })
       .catch((err) => {
         console.log("error", err);

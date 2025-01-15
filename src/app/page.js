@@ -22,7 +22,7 @@ export default function Home() {
 
   useEffect(() => {
     const TOKEN = localStorage.getItem("token");
-    console.log(TOKEN);
+    // console.log(TOKEN);
     if (!TOKEN) {
       router.push("/login");
     } else {

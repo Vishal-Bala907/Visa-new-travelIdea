@@ -11,6 +11,8 @@ const DropDown = () => {
     setValue(selectedValue); // Update the state
     if (selectedValue === "add-visa") {
       router.push("/addVisa"); // Navigate to /addVisa
+    } else if (selectedValue === "dsb") {
+      router.push("/dashboard"); // Navigate to /dsb
     }
   };
 

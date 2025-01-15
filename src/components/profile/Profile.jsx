@@ -11,6 +11,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const style = {
   position: "absolute",
@@ -44,6 +45,12 @@ const Profile = ({ showProfile, setShowProfile }) => {
     handleClose();
   };
 
+  const router = useRouter();
+  const handleLogout = () => {
+    // Handle logout logic here (e.g., API call)
+    localStorage.removeItem("token");
+    router.push("/login");
+  };
   return (
     <Modal
       open={showProfile}
@@ -97,7 +104,12 @@ const Profile = ({ showProfile, setShowProfile }) => {
             Update
           </Button>
 
-          <Button variant="outlined" fullWidth sx={{ mt: 2 }}>
+          <Button
+            variant="outlined"
+            fullWidth
+            sx={{ mt: 2 }}
+            onClick={handleLogout}
+          >
             Logout
           </Button>
         </Box>

@@ -14,6 +14,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FaLock, FaLockOpen } from "react-icons/fa6";
 
 export default function Steps({id}) {
+  const Id = id;
+ 
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
   // console.log("visaRequests", visaRequests);
   const [stage, setStage] = React.useState(1);
@@ -55,7 +57,7 @@ export default function Steps({id}) {
           <Typography>Step 3: Upload Documents</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {stage >= 3 && <UploadDocument setStage={setStage} id={id} />}
+          {stage >= 3 && <UploadDocument setStage={setStage} id={Id} />}
         </AccordionDetails>
       </Accordion>
 

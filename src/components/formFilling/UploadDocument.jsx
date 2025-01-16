@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Upload } from "lucide-react";
@@ -5,9 +6,11 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import Image from "next/image";
 import { addVisaRequest } from "../redux/slices/VisaRequest"; // Import the necessary action
 
-const UploadDocument = ({ setStage, id = 2 }) => {
+const UploadDocument = ({ setStage, id }) => {
   const dispatch = useDispatch();
-  const [visas, setVisas] = useState();
+  const Id = id;
+  console.log("id ->", Id);
+  // const [visas, setVisas] = useState();
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
   const firstname = visaRequests?.visaRequest?.map(
     (item) => item?.request?.visa?.givenName
@@ -19,21 +22,13 @@ const UploadDocument = ({ setStage, id = 2 }) => {
     (name, index) => name + " " + lastname[index]
   );
 
-  setVisas(useSelector((state) => state.visas.visas));
-  console.log("visas", visas);
-  const visabyId = visas.find((item) => {
-    return item.id === id;
-  });
-  console.log("visas by id", visabyId);
-  console.log("id", id);
-  const dummylabels = [
-    "Passport",
-    "Proof of Financial Means",
-    "Photo",
-    "Aadhar",
-    "Travel Itinerary",
-    "Invitation Letter",
-  ];
+  const visas = useSelector((state) => state.visas?.visas || []);
+  console.log("Redux visas:", visas); // Check if visas array is retrieved correctly
+
+  const visabyId = visas.find((item) => item.id === Number(Id));
+  console.log("Visa by ID:", visabyId); // Log the result to debug
+
+  const dummylabels = visabyId?.documents;
 
   const [activeTab, setActiveTab] = useState(0); // Use index for activeTab
   const [uploadedFiles, setUploadedFiles] = useState({});

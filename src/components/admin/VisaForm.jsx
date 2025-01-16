@@ -26,14 +26,13 @@ import EmbassyFeesStructureForm from "./EmbassyFeesStructureForm";
 import { toast } from "react-toastify";
 
 const documentOptions = [
-  "Passport Copy",
-  "Visa Application Form",
-  "Photographs",
-  "Travel Itinerary",
-  "Bank Statements",
-  "Proof of Accommodation",
-  "Employment Letter",
-  "Insurance Policy",
+  "Popular",
+  "Visa in a week",
+  "Easy Visa",
+  "Season",
+  "Schengen Visa",
+  "Visa Free",
+ 
 ];
 
 const tagOptions = [

@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Item from "./Item";
-import { getAllVisas } from "../../components/server/basic/basic";
 import { useSelector } from "react-redux";
 
 const Items = () => {

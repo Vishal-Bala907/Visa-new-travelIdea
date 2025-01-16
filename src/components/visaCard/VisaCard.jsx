@@ -56,6 +56,7 @@ const VisaCard = ({ name }) => {
 
           {visaItems.map((key, value) => (
             <div
+              key={value} 
               className={`min-w-max cursor-pointer rounded-lg px-6 py-2 text-sm ${
                 selectedType === key.visaType
                   ? "bg-[#093258] text-white"
@@ -73,7 +74,7 @@ const VisaCard = ({ name }) => {
             border border-visa-card-bg gap-10"
           >
             {displayedVisas.map((data, idx) => (
-              <Card key={idx} data={data}  />
+              <Card key={idx} data={data} />
             ))}
           </section>
         </div>

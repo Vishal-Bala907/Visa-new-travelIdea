@@ -1,6 +1,51 @@
+"use client";
 import React from "react";
 import { SiTicktick } from "react-icons/si";
+import { useSelector } from "react-redux";
+
 const Hero3 = ({ name }) => {
+  const visas = useSelector((state) => state.visas.visas);
+  console.log("visas by date", visas);
+
+  let highestWaitingTime = 0;
+  visas.forEach((visa) => {
+    if (visa.waitingTime > highestWaitingTime) {
+      highestWaitingTime = visa.waitingTime;
+    }
+  });
+  // Create a new Date object for today
+  let today = new Date();
+
+  // Add 14 days to the date
+  today.setDate(today.getDate() + 14);
+
+  // Create an array of month names
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  // Format the date to a readable format (e.g., "dd-month-yyyy")
+  let formattedDate =
+    today.getDate() +
+    " " +
+    monthNames[today.getMonth()] +
+    " " +
+    today.getFullYear();
+
+  // Display the date
+  console.log("14 days from today will be: " + formattedDate);
+
   return (
     <div>
       <section className="flex flex-col items-center">
@@ -24,7 +69,7 @@ const Hero3 = ({ name }) => {
                 />
                 <p>
                   <strong className="text-base font-extrabold">
-                    Get your visa by 14 Jan 2025
+                    Get your visa by {formattedDate}
                   </strong>
                   <br />
                   <span className="text-base font-normal">

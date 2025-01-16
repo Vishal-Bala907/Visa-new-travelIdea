@@ -47,7 +47,7 @@ const VisaCard = ({ name }) => {
             className={`min-w-max cursor-pointer rounded-lg px-6 py-2 text-sm ${
               selectedType === "ALL"
                 ? "bg-[#093258] text-white"
-                : "bg-slate-400"
+                : "bg-slate-400 text-white"
             }`}
             onClick={() => setSelectedType("ALL")}
           >
@@ -56,11 +56,11 @@ const VisaCard = ({ name }) => {
 
           {visaItems.map((key, value) => (
             <div
-              key={value} 
+              key={value}
               className={`min-w-max cursor-pointer rounded-lg px-6 py-2 text-sm ${
                 selectedType === key.visaType
                   ? "bg-[#093258] text-white"
-                  : "bg-slate-400"
+                  : "bg-slate-400 text-white"
               }`}
               onClick={() => setSelectedType(key.visaType)}
             >

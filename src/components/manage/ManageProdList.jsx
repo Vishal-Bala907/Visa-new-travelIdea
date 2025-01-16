@@ -5,16 +5,19 @@ const ManageProdList = ({ filter, visas }) => {
   const [data, setData] = useState(visas);
 
   useEffect(() => {
+    let filteredData;
     if (filter !== null) {
       if (filter.type === "string" && filter.fil === "tag") {
         const criteria = filter.name;
-        const filteredData =
-          data.length > 0
-            ? data.map((item) => {
-                return item.tag === criteria;
-              })
-            : data;
+        if (visas && visas.length < 1) {
+          filteredData = [];
+        } else {
+          filteredData = visas.filter((item) => {
+            return item.tag === criteria;
+          });
+        }
 
+        console.log(filteredData);
         setData(filteredData);
       }
     }

@@ -10,7 +10,6 @@ import visaRequestsReducer from "./slices/VisaRequest";
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["visaType", "visas", "visaRequest"], 
 };
 
 const rootReducer = combineReducers({

@@ -4,8 +4,8 @@ import { BiSolidPlaneTakeOff } from "react-icons/bi";
 import { FaSearch } from "react-icons/fa";
 import "../style.css";
 
-const Search = () => {
-  const [selected, setSelectedButton] = useState("easyVisa");
+const Search = ({ setFilter }) => {
+  const [selected, setSelectedButton] = useState("all");
   return (
     <div className="flex flex-col items-center justify-between gap-y-4 sm:flex-row sm:gap-y-0">
       <div className="w-full sm:w-1/2">
@@ -37,8 +37,20 @@ const Search = () => {
       <div className="no-scrollbar flex w-full items-center justify-end gap-x-3 overflow-auto overflow-x-auto max-lg:justify-start">
         <button
           onClick={() => {
+            setSelectedButton("all");
+            setFilter(null);
+          }}
+          className={`
+        min-w-fit rounded-full border px-4 py-2 font-inter text-xs font-medium leading-tight
+         bg-white text-[#686868] ${selected === "all" ? "border-[#0058D8]" : ""}
+      `}
+        >
+          All
+        </button>
+        <button
+          onClick={() => {
             setSelectedButton("popular");
-            console.log(selected);
+            setFilter("Popular");
           }}
           className={`
         min-w-fit rounded-full border px-4 py-2 font-inter text-xs font-medium leading-tight
@@ -52,6 +64,7 @@ const Search = () => {
         <button
           onClick={() => {
             setSelectedButton("visaInWeek");
+            setFilter("Visa in a week");
           }}
           className={`
         min-w-fit rounded-full border px-4 py-2 font-inter text-xs font-medium leading-tight
@@ -64,7 +77,7 @@ const Search = () => {
         <button
           onClick={() => {
             setSelectedButton("easyVisa");
-            console.log(selected);
+            setFilter("Easy Visa");
           }}
           className={`
         min-w-fit rounded-full border px-4 py-2 font-inter text-xs font-medium leading-tight bg-white
@@ -77,6 +90,7 @@ const Search = () => {
         <button
           onClick={() => {
             setSelectedButton("season");
+            setFilter("Season");
           }}
           className={`
         min-w-fit rounded-full border px-4 py-2 font-inter text-xs font-medium leading-tight
@@ -89,6 +103,7 @@ const Search = () => {
         <button
           onClick={() => {
             setSelectedButton("schengenVisa");
+            setFilter("Schengen Visa");
           }}
           className={`
         min-w-fit rounded-full border px-4 py-2 font-inter text-xs font-medium leading-tight
@@ -101,6 +116,7 @@ const Search = () => {
         <button
           onClick={() => {
             setSelectedButton("visaFree");
+            setFilter("Visa Free");
           }}
           className={`
         min-w-fit rounded-full border px-4 py-2 font-inter text-xs font-medium leading-tight

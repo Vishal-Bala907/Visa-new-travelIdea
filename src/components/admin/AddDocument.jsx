@@ -7,6 +7,7 @@ const AddDocument = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -15,7 +16,7 @@ const AddDocument = () => {
       documentName: data.documentTypeName,
     })
       .then((data) => {
-        console.log(data);
+        reset();
       })
       .catch((err) => {
         console.log(err);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -24,17 +24,7 @@ import AutofillCountry from "./AutofillCountry"; // Import the AutofillCountry c
 import { addNewVisa } from "../server/admin/admin";
 import EmbassyFeesStructureForm from "./EmbassyFeesStructureForm";
 import { toast } from "react-toastify";
-
-const documentOptions = [
-  "Passport Copy",
-  "Visa Application Form",
-  "Photographs",
-  "Travel Itinerary",
-  "Bank Statements",
-  "Proof of Accommodation",
-  "Employment Letter",
-  "Insurance Policy",
-];
+import { getAllDocuments } from "../server/basic/basic";
 
 const tagOptions = [
   "Popular",
@@ -47,6 +37,17 @@ const tagOptions = [
 
 const VisaForm = () => {
   const visaTypeOptions = useSelector((state) => state.visaType.visaType);
+  const [documentOptions, setDocumentOptions] = useState([]);
+
+  useEffect(() => {
+    getAllDocuments()
+      .then((data) => {
+        setDocumentOptions(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   const {
     control,
     handleSubmit,
@@ -86,7 +87,6 @@ const VisaForm = () => {
         type: "application/json",
       })
     );
-    console.log(feesStructure);
     // Append required documents and tags
     selectedDocuments.forEach((doc) =>
       formData.append("requiredDocuments", doc)
@@ -411,6 +411,8 @@ const VisaForm = () => {
                 labelId="tags-label"
                 value={selectedTags}
                 onChange={handleTagChange}
+                className="min-w-[200px]"
+
                 // renderValue={(selected) => selected.join(", ")}
               >
                 {tagOptions.map((tag, index) => (
@@ -423,23 +425,25 @@ const VisaForm = () => {
           </Grid2>
 
           {/* Submit Button */}
-          <Grid2 xs={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{
-                mt: 3,
-                backgroundColor: "#007BFF",
-                color: "#fff",
-                "&:hover": {
-                  backgroundColor: "#0056b3",
-                },
-              }}
-            >
-              Submit
-            </Button>
-          </Grid2>
+          {feesStructure && (
+            <Grid2 xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                sx={{
+                  mt: 3,
+                  backgroundColor: "#007BFF",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#0056b3",
+                  },
+                }}
+              >
+                Submit
+              </Button>
+            </Grid2>
+          )}
         </Grid2>
       </Box>
       <EmbassyFeesStructureForm onSubmit={handleFessSubmit} />

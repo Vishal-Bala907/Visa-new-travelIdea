@@ -5,13 +5,13 @@ import { useSelector } from "react-redux";
 
 const Items = () => {
   const visaItems = useSelector((state) => state.visas.visas);
-  // console.log(visaItems);
+  const count = useSelector((state) => state.visas.count);
 
   return (
     <div className="my-5 grid grid-flow-row grid-cols-1 gap-6 sm:grid-cols-4">
       {visaItems.map((item, idx) => {
         // console.log(item);
-        return <Item key={idx} item={item} />;
+        if (idx < count) return <Item key={idx} item={item} />;
       })}
       {/* <Item /> */}
     </div>

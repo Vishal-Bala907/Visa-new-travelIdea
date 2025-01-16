@@ -9,7 +9,7 @@ import { addVisaRequest } from "../redux/slices/VisaRequest"; // Import the nece
 const UploadDocument = ({ setStage, id }) => {
   const dispatch = useDispatch();
   const Id = id;
-  console.log("id ->", Id);
+
   // const [visas, setVisas] = useState();
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
   const firstname = visaRequests?.visaRequest?.map(
@@ -23,10 +23,10 @@ const UploadDocument = ({ setStage, id }) => {
   );
 
   const visas = useSelector((state) => state.visas?.visas || []);
-  console.log("Redux visas:", visas); // Check if visas array is retrieved correctly
+
 
   const visabyId = visas.find((item) => item.id === Number(Id));
-  console.log("Visa by ID:", visabyId); // Log the result to debug
+
 
   const dummylabels = visabyId?.documents;
 
@@ -140,7 +140,7 @@ const UploadDocument = ({ setStage, id }) => {
           >
             <div className="bg-white rounded-lg shadow p-6">
               <div className="flex flex-wrap gap-4">
-                {dummylabels.map((docType) => (
+                {dummylabels?.map((docType) => (
                   <div
                     key={docType}
                     className="flex flex-col items-center gap-4 mb-6"

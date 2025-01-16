@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { addVisaRequest } from "../redux/slices/VisaRequest";
 import "react-toastify/dist/ReactToastify.css";
 import './PassportForm.css';
-const VITE_API_URL = "4930ac1890fc6034c92921a12f9b6e65";
+const VITE_API_URL = "";
 // const VITE_API_URL = "";
 
 const initialVisaRequestsState = {

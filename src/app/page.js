@@ -38,7 +38,7 @@ export default function Home() {
     }
     getAllVisas()
       .then((data) => {
-        console.log(data);
+        
         dispatch(addAllVisas(data));
       })
       .catch((err) => {

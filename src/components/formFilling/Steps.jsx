@@ -70,7 +70,7 @@ export default function Steps({id}) {
           <Typography>Step 4: Make Payment</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {stage >= 4 && <MakePayment setStage={setStage} />}
+          {stage >= 4 && <MakePayment setStage={setStage} id={Id} />}
         </AccordionDetails>
       </Accordion>
     </Box>

@@ -43,8 +43,7 @@ const Hero3 = ({ name }) => {
     " " +
     today.getFullYear();
 
-  // Display the date
-  console.log("14 days from today will be: " + formattedDate);
+
 
   return (
     <div>

@@ -5,18 +5,15 @@ import UploadDocument from "./UploadDocument";
 import MakePayment from "./MakePayment";
 import AddVisitDetails from "./AddVisitDetails";
 import { Box } from "@mui/material";
-import { useSelector } from "react-redux";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { FaLock, FaLockOpen } from "react-icons/fa6";
+import { FaLock } from "react-icons/fa6";
 
-export default function Steps({id}) {
+export default function Steps({ id }) {
   const Id = id;
- 
-  const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
+
   // console.log("visaRequests", visaRequests);
   const [stage, setStage] = React.useState(1);
   // console.log("stage", stage);

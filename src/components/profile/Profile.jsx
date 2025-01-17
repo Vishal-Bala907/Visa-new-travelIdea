@@ -10,8 +10,9 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { logoutUser } from "../redux/slices/UserSlice";
 
 const style = {
   position: "absolute",
@@ -38,6 +39,7 @@ const Profile = ({ showProfile, setShowProfile }) => {
   const email = useSelector((state) => state.user.email);
   const phone = useSelector((state) => state.user.phone);
   const handleClose = () => setShowProfile(false);
+  const dispatch = useDispatch();
 
   const handleUpdate = () => {
     // Handle update logic here (e.g., API call)
@@ -49,6 +51,7 @@ const Profile = ({ showProfile, setShowProfile }) => {
   const handleLogout = () => {
     // Handle logout logic here (e.g., API call)
     localStorage.removeItem("token");
+    dispatch(logoutUser());
     router.push("/login");
   };
   return (

@@ -17,8 +17,15 @@ const userSlice = createSlice({
       state.phone = action.payload.mobileNumber;
       state.auth = true; // Set auth to true, not state.name
     },
+    logoutUser: (state) => {
+      state.name = "";
+      state.email = "";
+      state.role = "";
+      state.phone = "";
+      state.auth = false; // Set auth to true, not state.name
+    },
   },
 });
 
-export const { loginUser } = userSlice.actions;
+export const { loginUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer;

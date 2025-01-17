@@ -4,6 +4,7 @@ import VisaForm from "../../../components/admin/VisaForm";
 import { useDispatch } from "react-redux";
 import { fetchAllVisaTypes } from "../../../components/server/admin/admin";
 import { addVisaTypes } from "../../../components/redux/slices/VisaTypeSlice";
+import GridLoaderSpinner from "../../../components/spinner/GridLoaderSpinner";
 
 const page = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const page = () => {
       });
   }, []);
   if (loading) {
-    return <div>Loading...</div>;
+    return <GridLoaderSpinner />;
   }
   return (
     <main>

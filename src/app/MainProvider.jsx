@@ -12,7 +12,7 @@ const MainProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     if (!token && router.pathname !== "/login") {
       // Redirect to login page if token is not available
-      router.push("/login");
+      // router.push("/login");
     }
   }, [router]);
   return (

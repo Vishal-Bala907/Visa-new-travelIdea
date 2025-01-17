@@ -4,6 +4,8 @@ import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { getAllDocuments } from "../server/basic/basic";
 import { fetchAllVisaTypes } from "../server/admin/admin";
 import "../../app/ScrollBar.css";
+import GridLoaderSpinner from "../../components/spinner/GridLoaderSpinner";
+import NotFoundPage from "../not-found/NotFoundPage";
 
 const ManageProdList = ({ filter, visas = [] }) => {
   const [data, setData] = useState(visas); // Start with all visas
@@ -78,12 +80,12 @@ const ManageProdList = ({ filter, visas = [] }) => {
       });
   }, []);
   if (loading) {
-    return <div>Loading...</div>;
+    return <GridLoaderSpinner />;
   }
 
   // Render loading state
   if (loading) {
-    return <div>Loading...</div>;
+    return <GridLoaderSpinner />;
   }
 
   // console.log(data);
@@ -118,7 +120,7 @@ const ManageProdList = ({ filter, visas = [] }) => {
             />
           ))
         ) : (
-          <div>No Items Found</div>
+          <NotFoundPage />
         )}
       </section>
     </main>

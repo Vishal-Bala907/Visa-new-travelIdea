@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ManageItems from "./ManageItem";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { getAllDocuments } from "../server/basic/basic";
+import { fetchAllVisaTypes } from "../server/admin/admin";
+import "../../app/ScrollBar.css";
 
 const ManageProdList = ({ filter, visas = [] }) => {
   const [data, setData] = useState(visas); // Start with all visas
   const [priceToggle, setPriceToggle] = useState(false);
   const [showToggle, setShowToggle] = useState(true);
   const [loading, setLoading] = useState(false);
+  console.log(visas);
 
   // console.log(filter);
 
@@ -48,6 +52,35 @@ const ManageProdList = ({ filter, visas = [] }) => {
     setLoading(false); // End loading
   }, [filter, priceToggle, visas]);
 
+  const [documentOptions, setDocumentOptions] = useState([]);
+  const [visaTypes, setVisaTypes] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    getAllDocuments()
+      .then((data) => {
+        // console.log(data);
+        setDocumentOptions(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    fetchAllVisaTypes()
+      .then((data) => {
+        // console.log(data);
+        setVisaTypes(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   // Render loading state
   if (loading) {
     return <div>Loading...</div>;
@@ -55,7 +88,7 @@ const ManageProdList = ({ filter, visas = [] }) => {
 
   // console.log(data);
   return (
-    <main>
+    <main className="relative">
       {/* Price toggle section */}
       {showToggle && (
         <section className="flex justify-center align-center gap-[20px] h-[40px] bg-[#5500e34f]">
@@ -74,9 +107,16 @@ const ManageProdList = ({ filter, visas = [] }) => {
         </section>
       )}
       {/* Visa items display */}
-      <section className="flex justify-center align-top flex-row flex-wrap gap-15">
+      <section className="custom-scrollbar flex justify-center align-top flex-row flex-wrap gap-15  h-[856px] overflow-y-auto">
         {data && data.length > 0 ? (
-          data.map((item, idx) => <ManageItems key={idx} item={item} />)
+          data.map((item, idx) => (
+            <ManageItems
+              documentOptions={documentOptions}
+              visaTypes={visaTypes}
+              key={idx}
+              item={item}
+            />
+          ))
         ) : (
           <div>No Items Found</div>
         )}

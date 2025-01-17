@@ -1,9 +1,49 @@
-"use client"
-import React,{useState,useEffect} from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { CircleCheckBig } from "lucide-react";
+import { useSelector } from "react-redux";
 
+function ProgressBar({ name }) {
+  const visas = useSelector((state) => state.visas.visas);
+  console.log("visas by date", visas);
 
-function Page({ name }) {
+  let highestWaitingTime = 0;
+  visas.forEach((visa) => {
+    if (visa.waitingTime > highestWaitingTime) {
+      highestWaitingTime = visa.waitingTime;
+    }
+  });
+  // Create a new Date object for today
+  let today = new Date();
+  let finishDate = new Date();
+
+  // Add 14 days to the date
+  finishDate.setDate(finishDate.getDate() + 14);
+
+  // Create an array of month names
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  // Format the date to a readable format (e.g., "dd-month-yyyy")
+  let formattedDate = (date) =>
+    date.getDate() +
+    " " +
+    monthNames[date.getMonth()] +
+    " " +
+    date.getFullYear();
+
   const [backgroundImage, setBackgroundImage] = useState("");
   useEffect(() => {
     // This code runs only on the client side
@@ -45,7 +85,7 @@ function Page({ name }) {
                   Today
                 </p>
                 <p className="text-xl font-semibold text-[#252D3D]">
-                  17 Jan 2025
+                  {formattedDate(today)}
                 </p>
               </div>
             </div>
@@ -144,7 +184,7 @@ function Page({ name }) {
                   Get visa by
                 </p>
                 <p className="text-xl font-semibold text-[#22A06B]">
-                  15 Aug 2025
+                  {formattedDate(finishDate)}
                 </p>
               </div>
             </div>
@@ -155,4 +195,4 @@ function Page({ name }) {
   );
 }
 
-export default Page;
+export default ProgressBar;

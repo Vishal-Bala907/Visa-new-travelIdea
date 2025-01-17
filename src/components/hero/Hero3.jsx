@@ -13,11 +13,11 @@ const Hero3 = ({ name }) => {
       highestWaitingTime = visa.waitingTime;
     }
   });
-  // Create a new Date object for today
-  let today = new Date();
+  // Create a new Date object for finishDate
+  let finishDate = new Date();
 
   // Add 14 days to the date
-  today.setDate(today.getDate() + 14);
+  finishDate.setDate(finishDate.getDate() + 14);
 
   // Create an array of month names
   const monthNames = [
@@ -36,12 +36,12 @@ const Hero3 = ({ name }) => {
   ];
 
   // Format the date to a readable format (e.g., "dd-month-yyyy")
-  let formattedDate =
-    today.getDate() +
+  let formattedDate = (date) =>
+    date.getDate() +
     " " +
-    monthNames[today.getMonth()] +
+    monthNames[date.getMonth()] +
     " " +
-    today.getFullYear();
+    date.getFullYear();
 
 
 
@@ -68,7 +68,7 @@ const Hero3 = ({ name }) => {
                 />
                 <p>
                   <strong className="text-base font-extrabold">
-                    Get your visa by {formattedDate}
+                    Get your visa by {formattedDate(finishDate)}
                   </strong>
                   <br />
                   <span className="text-base font-normal">

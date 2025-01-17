@@ -17,7 +17,7 @@ const Testimonials = () => {
           The 5 star visa company
         </div>
         <h3 className="my-2 font-sans text-sm font-semibold leading-tight text-gray-400 md:my-8 md:text-xl">
-          TravelIndia is a top-rated visa{" "}
+          Travel-Idea is a top-rated visa{" "}
           <div className="flex justify-center align-center gap-2">
             <p> company, on</p>
             <img

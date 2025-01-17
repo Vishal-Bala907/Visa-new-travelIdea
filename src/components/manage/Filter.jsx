@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { fetchAllVisaTypes } from "../server/admin/admin";
+import GridLoaderSpinner from "../spinner/GridLoaderSpinner";
 
 const Filter = ({ setFilter }) => {
   const [visaTypeOptions, setVisaOptions] = useState([]);
@@ -74,7 +75,7 @@ const Filter = ({ setFilter }) => {
     }
   }, [selectedCountry?.label]);
   if (loading) {
-    return <div>Loading...</div>;
+    return <GridLoaderSpinner />;
   }
   return (
     <header className="flex justify-center align-center py-3 bg-slate-300 gap-10 flex-row flex-wrap">

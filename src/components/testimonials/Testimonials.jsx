@@ -1,6 +1,5 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
-import { FaGoogle } from "react-icons/fa";
 
 const Testimonials = () => {
   return (

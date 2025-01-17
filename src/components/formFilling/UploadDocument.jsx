@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Upload } from "lucide-react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Image from "next/image";
-import { addVisaRequest } from "../redux/slices/VisaRequest"; // Import the necessary action
+import { addVisaRequest } from "../redux/slices/VisaRequest"; 
 
 const UploadDocument = ({ setStage, id }) => {
   const dispatch = useDispatch();

@@ -1,6 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { CircleCheckBig } from "lucide-react";
+import {
+  CircleCheckBig,
+  FileText,
+  CalendarCheck,
+  MailCheck,
+} from "lucide-react";
 import { useSelector } from "react-redux";
 
 function ProgressBar({ name }) {
@@ -13,14 +18,11 @@ function ProgressBar({ name }) {
       highestWaitingTime = visa.waitingTime;
     }
   });
-  // Create a new Date object for today
+
   let today = new Date();
   let finishDate = new Date();
-
-  // Add 14 days to the date
   finishDate.setDate(finishDate.getDate() + 14);
 
-  // Create an array of month names
   const monthNames = [
     "January",
     "February",
@@ -36,7 +38,6 @@ function ProgressBar({ name }) {
     "December",
   ];
 
-  // Format the date to a readable format (e.g., "dd-month-yyyy")
   let formattedDate = (date) =>
     date.getDate() +
     " " +
@@ -46,7 +47,6 @@ function ProgressBar({ name }) {
 
   const [backgroundImage, setBackgroundImage] = useState("");
   useEffect(() => {
-    // This code runs only on the client side
     if (window.innerWidth > 1024) {
       setBackgroundImage("url('/img/general/bg-progress-bar.png')");
     } else {
@@ -72,7 +72,7 @@ function ProgressBar({ name }) {
         </div>
         <div className="group relative flex h-full w-full flex-row items-start justify-center gap-7 md:max-w-[521px] md:gap-8">
           <div className="absolute left-0 z-0 h-full w-16 overflow-hidden rounded-[60px] bg-[hsl(216,100%,98%)]">
-            <div className="absolute left-[32px] z-10 h-full w-16 -translate-y-[100%] translate-x-[-50%] rounded-[60px] bg-primary transition duration-[2000ms] ease-in-out group-hover:translate-y-[0%]"></div>
+            <div className="absolute left-[32px] z-10 h-full w-16 -translate-y-[100%] translate-x-[-50%] rounded-[60px] bg-primary transition duration-[10000ms] ease-in-out group-hover:translate-y-[0%] group-hover:bg-[#d2b4f8]"></div>
             <div className="absolute w-16"></div>
           </div>
           <div className="flex h-full w-full flex-col items-start justify-between py-4">
@@ -91,21 +91,9 @@ function ProgressBar({ name }) {
             </div>
             <div>
               <div className="flex w-full py-[18px]">
-                <div className="mr-[27px] flex min-w-[64px] items-start justify-center md:mr-[39px]">
-                  <img
-                    src="https://55a780802dc18c444044a86ef69dab98.cdn.bubble.io/f1709809421050x999315515097338500/billing.svg"
-                    alt="Start & submit your application"
-                    width="34"
-                    height="34"
-                    className="z-20 rounded-full bg-transparent transition group-hover:z-30 group-hover:invert duration-[500ms] invert-0 ease-linear"
-                  />
-                  <img
-                    src="https://55a780802dc18c444044a86ef69dab98.cdn.bubble.io/f1709809421050x999315515097338500/billing.svg"
-                    alt="Start & submit your application"
-                    width="34"
-                    height="34"
-                    className="z-30 rounded-full bg-transparent transition group-hover:z-20 group-hover:invert duration-[2000ms] absolute invert-0 ease-linear"
-                  />
+                <div className="mr-[27px] flex min-w-[64px]  items-start justify-center md:mr-[39px]">
+                  <FileText className="z-20  h-[34px] w-[34px]  bg-transparent transition group-hover:z-30 group-hover:invert duration-[500ms] invert-0 ease-linear" />
+                  <FileText className="z-30 h-[34px] w-[34px]  bg-transparent transition group-hover:z-20 group-hover:invert duration-[2000ms] absolute invert-0 ease-linear" />
                 </div>
                 <p className="flex w-full flex-col font-inter text-base">
                   <span className="inline-flex pb-2 font-inter font-bold leading-[20.99px] text-[#252D3D]">
@@ -119,20 +107,8 @@ function ProgressBar({ name }) {
               </div>
               <div className="flex w-full py-[18px]">
                 <div className="mr-[27px] flex min-w-[64px] items-start justify-center md:mr-[39px]">
-                  <img
-                    src="https://55a780802dc18c444044a86ef69dab98.cdn.bubble.io/f1709809491489x679845802388505900/schedule.svg"
-                    alt="Expert review and appointment booking"
-                    width="34"
-                    height="34"
-                    className="z-20 rounded-full bg-transparent transition group-hover:z-30 group-hover:invert duration-[1000ms] invert-0 ease-linear"
-                  />
-                  <img
-                    src="https://55a780802dc18c444044a86ef69dab98.cdn.bubble.io/f1709809491489x679845802388505900/schedule.svg"
-                    alt="Expert review and appointment booking"
-                    width="34"
-                    height="34"
-                    className="z-30 rounded-full bg-transparent transition group-hover:z-20 group-hover:invert duration-[1500ms] absolute invert-0 ease-linear"
-                  />
+                  <CalendarCheck className="z-20 h-[34px] w-[34px]  bg-transparent transition group-hover:z-30 group-hover:invert duration-[1000ms] invert-0 ease-linear" />
+                  <CalendarCheck className="z-30 h-[34px] w-[34px]  bg-transparent transition group-hover:z-20 group-hover:invert duration-[1500ms] absolute invert-0 ease-linear" />
                 </div>
                 <p className="flex w-full flex-col font-inter text-base">
                   <span className="inline-flex pb-2 font-inter font-bold leading-[20.99px] text-[#252D3D]">
@@ -143,23 +119,10 @@ function ProgressBar({ name }) {
                   </span>
                 </p>
               </div>
-
               <div className="flex w-full py-[18px]">
                 <div className="mr-[27px] flex min-w-[64px] items-start justify-center md:mr-[39px]">
-                  <img
-                    src="https://55a780802dc18c444044a86ef69dab98.cdn.bubble.io/f1709809449379x456927536791537100/email.svg"
-                    alt="Visa delivered on time"
-                    width="34"
-                    height="34"
-                    className="z-20 rounded-full bg-transparent transition group-hover:z-30 group-hover:invert duration-[2000ms] invert-0 ease-linear"
-                  />
-                  <img
-                    src="https://55a780802dc18c444044a86ef69dab98.cdn.bubble.io/f1709809449379x456927536791537100/email.svg"
-                    alt="Visa delivered on time"
-                    width="34"
-                    height="34"
-                    className="z-30 rounded-full bg-transparent transition group-hover:z-20 group-hover:invert duration-[500ms] absolute invert-0 ease-linear"
-                  />
+                  <MailCheck className="z-20 h-[34px] w-[34px] -10  bg-transparent transition group-hover:z-30 group-hover:invert duration-[2000ms] invert-0 ease-linear" />
+                  <MailCheck className="z-30 h-[34px] w-[34px]  bg-transparent transition group-hover:z-20 group-hover:invert duration-[500ms] absolute invert-0 ease-linear" />
                 </div>
                 <p className="flex w-full flex-col font-inter text-base">
                   <span className="inline-flex pb-2 font-inter font-bold leading-[20.99px] text-[#252D3D]">
@@ -175,7 +138,7 @@ function ProgressBar({ name }) {
             <div className="flex w-full pt-[18px]">
               <div className="mr-[27px] flex min-w-[64px] items-center justify-center md:mr-[39px]">
                 <figure className="absolute z-20 flex h-[34px] w-[34px] items-center justify-center rounded-full bg-[#D9E8FC] group-hover:z-30 group-hover:bg-[#70CDA0] delay-[2000ms]">
-                  <CircleCheckBig />
+                  <CircleCheckBig className="z-30 h-[34px] w-[34px] rounded-full bg-transparent transition group-hover:z-20 group-hover:invert duration-[500ms] absolute invert-0 ease-linear" />
                 </figure>
                 <figure className="absolute z-30 flex h-[34px] w-[34px] items-center justify-center rounded-full bg-[#D9E8FC] delay-[0ms] group-hover:z-20"></figure>
               </div>

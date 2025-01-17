@@ -6,11 +6,22 @@ import Container from "@mui/material/Container";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { differenceInYears } from "date-fns";
-
+import chalk from "chalk";
 const MakePayment = ({ setStage, id }) => {
   const dispatch = useDispatch();
   const visaRequests = useSelector((state) => state.visaRequest.visaRequests);
   console.log("visaRequests2", visaRequests);
+
+  const firstname = visaRequests?.visaRequest?.map(
+    (item) => item?.request?.visa?.givenName
+  );
+  const lastname = visaRequests?.visaRequest?.map(
+    (item) => item?.request?.visa?.surname
+  );
+  const usernames = firstname.map(
+    (name, index) => name + " " + lastname[index]
+  );
+
   const dateOfBirth = visaRequests?.visaRequest?.map(
     (item) => item?.request?.visa?.dateOfBirth
   );
@@ -25,19 +36,45 @@ const MakePayment = ({ setStage, id }) => {
 
   console.log("Ages in IST ->", ages);
 
-  //calculating appointment fees
-
   const visas = useSelector((state) => state.visas?.visas || []);
   const Id = id;
 
-
   const visabyId = visas.find((item) => item.id === Number(Id));
   console.log("visabyId2", visabyId);
+  //calculating appointment fees
   const AppointmentFees = Number(visabyId?.embassyFees?.appointmentFees);
   const TotalAppointmentFees = AppointmentFees * TotalTravellers;
   const EmbassyFess = visabyId?.embassyFees?.fees;
-  const TotalEmbassyFess = EmbassyFess * TotalTravellers;
+  const serviceFee = Number(visabyId?.serviceFee);
+  const TotalServiceFee = serviceFee * TotalTravellers;
 
+  console.log("TotalAppointmentFees->", TotalAppointmentFees);
+  console.log("TotalServiceFee->", TotalServiceFee);
+  var TotalEmbassyFees = 0;
+  var TotalFeesByAge = 0;
+  var fees;
+  // calculate embassy fees based on age ranges
+  if (ages && EmbassyFess) {
+    ages.forEach((age) => {
+      const fee = EmbassyFess.find((fee) => {
+        return age >= fee.minAge && age <= fee.maxAge;
+      });
+      if (fee) {
+        TotalFeesByAge += fee.fees;
+      }
+    });
+  }
+  console.log("TotalFeesByAge->", TotalFeesByAge);
+  // calculating total embassy fees
+  TotalEmbassyFees += TotalAppointmentFees;
+  console.log(
+    chalk.green.bold("after adding appointment fees->"),
+    TotalEmbassyFees
+  );
+  TotalEmbassyFees += TotalFeesByAge;
+  console.log(chalk.green.bold("after adding fees by age->"), TotalEmbassyFees);
+   TotalEmbassyFees += TotalServiceFee;
+  console.log(chalk.green.bold("after adding service fee->"), TotalEmbassyFees);
   const handlePayment = () => {
     if (typeof window === "undefined" || !window.Razorpay) {
       alert("Razorpay SDK not loaded. Please check your internet connection.");
@@ -46,11 +83,11 @@ const MakePayment = ({ setStage, id }) => {
 
     const options = {
       key: "rzp_test_eG9FMYxysaEFXV", // Your Razorpay Key ID
-      amount: 50000, // Amount in paise (50000 paise = INR 500)
+      amount: TotalEmbassyFees * 100, // Amount in paise (50000 paise = INR 500)
       currency: "INR",
       name: "TravelIdea",
       description: "Test Transaction",
-      image: "https://your-logo-url.com/logo.png", // Optional: Your company logo URL
+      image: "/img/general/logoDark.png",
       handler: function (response) {
         // Handle payment success here
         console.log("Payment Successful!", response);
@@ -80,7 +117,6 @@ const MakePayment = ({ setStage, id }) => {
     razorpay.open();
   };
 
-
   return (
     <>
       <Script
@@ -105,7 +141,7 @@ const MakePayment = ({ setStage, id }) => {
             onClick={handlePayment}
             style={{ marginTop: "20px" }}
           >
-            Pay 500
+            Pay Rs {TotalEmbassyFees}
           </Button>
         </Box>
       </Container>

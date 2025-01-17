@@ -1,10 +1,12 @@
 import { useRouter } from "next/navigation";
 import { MdUpdate } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
-import React from "react";
+import React, { useState } from "react";
+import UpdateModal from "./update/UpdateModal";
 
 const ManageItem = ({ item }) => {
   const router = useRouter();
+  const [update, setUpdate] = useState(false);
   return (
     <div className="relative">
       <div
@@ -46,6 +48,9 @@ const ManageItem = ({ item }) => {
       </div>
       <section className="absolute top-[30px] right-[3px]">
         <MdUpdate
+          onClick={() => {
+            setUpdate(true);
+          }}
           className="mb-4 text-[#00bb00] hover:shadow-2xl cursor-pointer"
           style={{
             fontSize: "1.5rem",
@@ -58,6 +63,7 @@ const ManageItem = ({ item }) => {
           }}
         />
       </section>
+      {update && <UpdateModal visa={item} />}
     </div>
   );
 };

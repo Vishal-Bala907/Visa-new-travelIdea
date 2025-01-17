@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import AutofillCountry from "../admin/AutofillCountry";
+import { VscGoToSearch } from "react-icons/vsc";
+import style from "./SearchIcon.module.css";
 import {
   FormControl,
   Grid2,
@@ -10,9 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
 import { fetchAllVisaTypes } from "../server/admin/admin";
-import { type } from "os";
 
 const Filter = ({ setFilter }) => {
   const [visaTypeOptions, setVisaOptions] = useState([]);
@@ -49,12 +49,30 @@ const Filter = ({ setFilter }) => {
   // Watch the selected country
   const selectedCountry = watch("country");
   const [selectedTags, setSelectedTags] = useState("");
+  const [visaType, setVisaType] = useState("");
+  const [priceRange, setPriceRange] = useState(0);
   const handleTagChange = (e) => {
     const val = e.target.value;
     setSelectedTags(e.target.value);
     setFilter({ name: val, type: "string", fil: "tag" });
   };
+  const handleVisaTypeChange = (e) => {
+    setVisaType(e.target.value);
+    setFilter({ name: visaType, type: "string", fil: "visaType" });
+  };
+  const handlePriceChange = (e) => {
+    setFilter({ name: priceRange, type: "number", fil: "visaFee" });
+  };
 
+  useEffect(() => {
+    if (selectedCountry?.label) {
+      setFilter({
+        name: selectedCountry?.label,
+        type: "string",
+        fil: "countyName",
+      });
+    }
+  }, [selectedCountry?.label]);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -100,7 +118,13 @@ const Filter = ({ setFilter }) => {
               defaultValue=""
               rules={{ required: "Visa type is required" }}
               render={({ field }) => (
-                <Select {...field} labelId="visaType-label" label="Visa Type">
+                <Select
+                  {...field}
+                  labelId="visaType-label"
+                  label="Visa Type"
+                  value={visaType}
+                  onChange={handleVisaTypeChange}
+                >
                   {visaTypeOptions.map((type, index) => (
                     <MenuItem key={index} value={type}>
                       {type}
@@ -115,7 +139,22 @@ const Filter = ({ setFilter }) => {
           </FormControl>
         </Grid2>
       </div>
-      <TextField id="outlined-basic" label="Price" variant="outlined" />
+      <div className="relative">
+        <TextField
+          type="number"
+          id="outlined-basic"
+          label="Price"
+          variant="outlined"
+          value={priceRange}
+          onChange={(e) => {
+            setPriceRange(e.target.value);
+          }}
+        />
+        <VscGoToSearch
+          onClick={handlePriceChange}
+          className={`${style.icon}`}
+        />
+      </div>
     </header>
     // </form>
   );

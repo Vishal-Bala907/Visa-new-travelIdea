@@ -43,5 +43,13 @@ export const getProfile = async () => {
     throw err;
   }
 };
+export const updateProfile = async (profile) => {
+  try {
+    const response = await apiClient.put(`/data/update/profile`, profile);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 
 // export const getProfile = await apiClient

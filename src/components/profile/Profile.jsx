@@ -12,7 +12,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { logoutUser } from "../redux/slices/UserSlice";
+import { loginUser, logoutUser } from "../redux/slices/UserSlice";
+import { updateProfile } from "../server/basic/basic";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -41,9 +43,29 @@ const Profile = ({ showProfile, setShowProfile }) => {
   const handleClose = () => setShowProfile(false);
   const dispatch = useDispatch();
 
+  const [name, setName] = useState(userName);
+  const [Email, setEmail] = useState(email);
+
   const handleUpdate = () => {
-    // Handle update logic here (e.g., API call)
-    // console.log("Updated profile:", { name, email, whatsappNumber });
+    const profile = {
+      userName: name,
+      email: Email,
+      mobileNumber: phone,
+    };
+
+    updateProfile(profile)
+      .then((data) => {
+        toast("Profile Updated Successfully 😊😊", {
+          position: "top-left",
+        });
+        dispatch(loginUser(data));
+      })
+      .catch((err) => {
+        toast.error("Unable to update profile", {
+          position: "top-left",
+        });
+      });
+
     handleClose();
   };
 
@@ -83,7 +105,7 @@ const Profile = ({ showProfile, setShowProfile }) => {
             label="Name"
             fullWidth
             margin="normal"
-            value={userName}
+            value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
@@ -91,7 +113,7 @@ const Profile = ({ showProfile, setShowProfile }) => {
             label="Email"
             fullWidth
             margin="normal"
-            value={email}
+            value={Email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
@@ -100,7 +122,8 @@ const Profile = ({ showProfile, setShowProfile }) => {
             fullWidth
             margin="normal"
             value={phone}
-            onChange={(e) => setWhatsappNumber(e.target.value)}
+            contentEditable={false}
+            // onChange={(e) => setWhatsappNumber(e.target.value)}
           />
 
           <Button variant="contained" fullWidth onClick={handleUpdate}>

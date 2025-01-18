@@ -83,7 +83,6 @@ const ManageItem = ({ documentOptions, visaTypes, item }) => {
           visaTypeOptions={visaTypes}
           documentOptions={documentOptions}
           tagOptions={tagOptions}
-          onUpdate={(updatedData) => console.log(updatedData)}
           onClose={() => setModalOpen(false)}
           setUpdate={setUpdate}
         />

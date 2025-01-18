@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import {
   Box,
   Button,
@@ -142,4 +142,4 @@ const UpdateEmbassyFees = ({ initialData }) => {
   );
 };
 
-export default UpdateEmbassyFees;
+export default memo(UpdateEmbassyFees);

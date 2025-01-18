@@ -39,3 +39,12 @@ export const addNewVisa = async (visa) => {
     throw err;
   }
 };
+export const updateVisa = async (visa) => {
+  // console.log(visa);
+  try {
+    const response = await apiClient.put(`/admin/visa/update/visa`, visa, {});
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

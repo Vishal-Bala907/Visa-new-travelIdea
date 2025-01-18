@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
+import { updatImage } from "../../server/admin/admin";
 
-const UpdateImage = ({ currentImageUrl }) => {
+const UpdateImage = ({ visaId, currentImageUrl }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewImageUrl, setPreviewImageUrl] = useState(
     `${process.env.NEXT_PUBLIC_BASE_URL}/${currentImageUrl}`
   );
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0] || null;
@@ -15,8 +17,43 @@ const UpdateImage = ({ currentImageUrl }) => {
     }
   };
 
-  const handleUpdateClick = () => {
-    // onUpdateImage(selectedImage);
+  const handleUpdateClick = async () => {
+    if (!selectedImage) return;
+
+    try {
+      setIsUploading(true);
+
+      // Convert the file to Base64
+      const toBase64 = (file) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result.split(",")[1]); // Exclude the data URI prefix
+          reader.onerror = (error) => reject(error);
+          reader.readAsDataURL(file);
+        });
+
+      const base64Image = await toBase64(selectedImage);
+
+      // Prepare ImageUpdateDTO object
+      const imageUpdateDTO = {
+        visaId,
+        image: base64Image,
+        originalName: selectedImage.name,
+      };
+
+      // Send to backend
+      updatImage(imageUpdateDTO)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.error("Error updating image:", error);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -61,10 +98,10 @@ const UpdateImage = ({ currentImageUrl }) => {
       <Button
         variant="contained"
         onClick={handleUpdateClick}
-        disabled={!selectedImage}
+        disabled={!selectedImage || isUploading}
         fullWidth
       >
-        Update Image
+        {isUploading ? "Updating..." : "Update Image"}
       </Button>
     </Box>
   );

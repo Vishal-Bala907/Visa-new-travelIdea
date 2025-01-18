@@ -9,6 +9,7 @@ import {
 import { useSelector } from "react-redux";
 
 function ProgressBar({ name }) {
+  const [progress, setProgress] = useState(0);
   const visas = useSelector((state) => state.visas.visas);
   console.log("visas by date", visas);
 
@@ -53,7 +54,19 @@ function ProgressBar({ name }) {
       setBackgroundImage("none");
     }
   }, []);
+ useEffect(() => {
+   const interval = setInterval(() => {
+     setProgress((prev) => {
+       if (prev >= 100) {
+         clearInterval(interval);
+         return 100; 
+       }
+       return prev + 1; 
+     });
+   }, 50); // Update every 100ms (10% per second for 10 seconds)
 
+   return () => clearInterval(interval); // Cleanup on unmount
+ }, []);
   return (
     <div>
       <div
@@ -72,7 +85,16 @@ function ProgressBar({ name }) {
         </div>
         <div className="group relative flex h-full w-full flex-row items-start justify-center gap-7 md:max-w-[521px] md:gap-8">
           <div className="absolute left-0 z-0 h-full w-16 overflow-hidden rounded-[60px] bg-[hsl(216,100%,98%)]">
-            <div className="absolute left-[32px] z-10 h-full w-16 -translate-y-[100%] translate-x-[-50%] rounded-[60px] bg-primary transition duration-[10000ms] ease-in-out group-hover:translate-y-[0%] group-hover:bg-[#d2b4f8]"></div>
+            <div
+              className="absolute left-[32px] z-10 h-full w-16 -translate-y-[100%] translate-x-[-50%] rounded-[60px] bg-primary  group-hover:translate-y-[0%] group-hover:bg-[#d2b4f8]"
+              style={{
+                height: `${progress}%`,
+                width: "100%",
+                backgroundColor: "#d2b4f8",
+                borderRadius: "50px",
+                transition: "height 0.1s linear",
+              }}
+            ></div>
             <div className="absolute w-16"></div>
           </div>
           <div className="flex h-full w-full flex-col items-start justify-between py-4">

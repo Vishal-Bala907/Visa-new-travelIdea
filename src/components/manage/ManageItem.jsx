@@ -3,6 +3,7 @@ import { MdUpdate } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import React, { useEffect, useState } from "react";
 import UpdateModal from "./update/UpdateModal";
+import { FaPencil } from "react-icons/fa6";
 const tagOptions = [
   "Popular",
   "Visa in a week",
@@ -60,7 +61,7 @@ const ManageItem = ({ documentOptions, visaTypes, item }) => {
           </div>
         </div>
         <section className="absolute top-[30px] right-[3px]">
-          <MdUpdate
+          <FaPencil
             onClick={() => {
               setUpdate(true);
             }}

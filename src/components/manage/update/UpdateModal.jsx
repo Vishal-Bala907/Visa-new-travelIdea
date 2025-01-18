@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { addAllVisas } from "../../redux/slices/Visas";
 import { ClipLoader } from "react-spinners";
+
 // import { transform } from "next/dist/build/swc/generated-native";
 
 const UpdateModal = ({

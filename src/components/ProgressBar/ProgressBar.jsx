@@ -90,7 +90,7 @@ function ProgressBar({ name }) {
               style={{
                 height: `${progress}%`,
                 width: "100%",
-                backgroundColor: "#d2b4f8",
+                backgroundColor: "#093258",
                 borderRadius: "50px",
                 transition: "height 0.1s linear",
               }}

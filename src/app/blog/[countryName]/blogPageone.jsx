@@ -18,10 +18,9 @@ const BlogPageOne = async ({ countryName }) => {
             </h2>
             <div className="flex flex-col gap-[44px] lg:flex-row ">
               <div className="mx-auto flex min-h-[450px] w-fit cursor-pointer flex-col lg:m-0 lg:w-3/5">
-                <div className="mx-auto flex h-full flex-col border border-2 border-[#F1F1F1] md:min-w-[500px] lg:m-0">
+                <div className="mx-auto flex h-full flex-col  border-2 border-[#F1F1F1] md:min-w-[500px] lg:m-0">
                   <figure className="mx-auto">
-                    <img
-                      className="h-auto items-stretch"
+                    <img className="h-auto items-stretch"
                       src={blogdata[0].bannerimg}
                       alt="example-image"
                     />
@@ -55,9 +54,9 @@ const BlogPageOne = async ({ countryName }) => {
                     />
                     <div className="row my-[1rem] flex min-h-[173px] flex-col gap-[12px] px-[22px]">
                       <h4 className="card-para text-[14px] font-bold md:text-[16px] lg:text-[18px] xl:text-[20px]">
-                        {blog.blogHeading} {blog.id}
+                        {blog.blogHeading}
                       </h4>
-                      <p className="card-para inline-block flex text-[12px] text-[#667085] md:text-[14px] lg:text-[16px] xl:text-[18px]">
+                      <p className="card-para flex text-[12px] text-[#667085] md:text-[14px] lg:text-[16px] xl:text-[18px]">
                         {blog.blogDescription}
                       </p>
                       <a
@@ -93,7 +92,7 @@ const BlogPageOne = async ({ countryName }) => {
                   <div className="bg-gray-2 flex flex-col justify-between self-stretch p-4 pb-6 sm:gap-[16px]">
                     <div className="flex flex-col justify-between gap-y-3 self-stretch">
                       <h4 className="min-h-16 m-0 inline-block self-stretch font-inter text-[18px] font-semibold">
-                        {blog.blogHeading} {blog.id}
+                        {blog.blogHeading}
                       </h4>
                       <p className=" m-0 inline-block self-stretch font-inter text-[18px] font-normal leading-[23.4px] text-[#667085]">
                         {blog.blogDescription}

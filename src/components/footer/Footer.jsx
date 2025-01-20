@@ -1,7 +1,12 @@
+"use client"
 import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
-
+import {useSelector} from "react-redux"
 const Footer = () => {
+const items = useSelector((state)=> state.visas.visas )
+const countryNames = items.map((item)=> item.countyName).filter((country,index,self)=> self.indexOf(country) === index);
+
+console.log("visas ->",countryNames)
   return (
     <footer className="bg-[#093258] text-white py-8">
       <div className="container mx-auto px-4">
@@ -82,63 +87,9 @@ const Footer = () => {
         <div className="w-full mt-20">
           <h3 className="font-semibold mb-2">Read more about visas</h3>
           <ul className="flex flex-wrap">
-            {[
-              "France",
-              "Turkey",
-              "Hong Kong",
-              "Switzerland",
-              "Australia",
-              "United Arab Emirates",
-              "Malaysia",
-              "Japan",
-              "Singapore",
-              "Indonesia",
-              "Vietnam",
-              "Azerbaijan",
-              "United Kingdom",
-              "Spain",
-              "Greece",
-              "United States",
-              "South Korea",
-              "Poland",
-              "Germany",
-              "Georgia",
-              "Hungary",
-              "Finland",
-              "Italy",
-              "China",
-              "Norway",
-              "Egypt",
-              "Oman",
-              "Sweden",
-              "Austria",
-              "Denmark",
-              "Uzbekistan",
-              "Czech Republic",
-              "Cambodia",
-              "Morocco",
-              "New Zealand",
-              "Bahrain",
-              "Netherlands",
-              "Russia",
-              "Philippines",
-              "Brazil",
-              "Saudi Arabia",
-              "Kenya",
-              "Portugal",
-              "Belgium",
-              "Croatia",
-              "Lithuania",
-              "Luxembourg",
-              "Romania",
-              "Bulgaria",
-              "Slovakia",
-              "Latvia",
-              "Estonia",
-              "Ireland",
-            ].map((country) => (
+            {countryNames.map((country) => (
               <li key={country} className="mr-2 mb-2">
-                <a href="#" className="hover:underline">
+                <a href={`blog/${country}`} className="hover:underline">
                   {country}
                 </a>
               </li>

@@ -1,15 +1,24 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { FaWhatsapp } from "react-icons/fa";
-import {useSelector} from "react-redux"
-import { Provider, useDispatch } from "react-redux";
-import {addCountry} from '../redux/slices/BlogSlice'
-import store from "../redux/configStore";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addCountry } from "../redux/slices/BlogSlice";
+import { getAllBlogCountryNames } from "../server/basic/basic";
 const Footer = () => {
-const items = useSelector((state)=> state.visas.visas )
-const countryNames = items.map((item)=> item.countyName).filter((country,index,self)=> self.indexOf(country) === index);
- const dispatch = useDispatch();
-console.log("visas ->",countryNames)
+  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const countries = useSelector((state) => state.blogSlice.countries);
+  useEffect(() => {
+    getAllBlogCountryNames()
+      .then((data) => {
+        dispatch(addCountry(data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [countries]);
+
   return (
     <footer className="bg-[#093258] text-white py-8">
       <div className="container mx-auto px-4">
@@ -90,13 +99,14 @@ console.log("visas ->",countryNames)
         <div className="w-full mt-20">
           <h3 className="font-semibold mb-2">Read more about visas</h3>
           <ul className="flex flex-wrap">
-            {countryNames.map((country) => (
-              <li key={country} className="mr-2 mb-2">
-                <a href={`blog/${country}`} className="hover:underline">
-                  {country}
-                </a>
-              </li>
-            ))}
+            {countries &&
+              countries.map((country) => (
+                <li key={country} className="mr-2 mb-2">
+                  <a href={`blog/${country}`} className="hover:underline">
+                    {country}
+                  </a>
+                </li>
+              ))}
           </ul>
         </div>
       </div>

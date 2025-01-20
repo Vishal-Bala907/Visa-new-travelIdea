@@ -6,6 +6,9 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "summernote/dist/summernote-lite.js";
 import { addNewBlog } from "../server/admin/admin";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { addCountry } from "../redux/slices/BlogSlice";
+import { DM_Sans } from "next/font/google";
 
 const AddBlog = () => {
   const editorRef = useRef(null);
@@ -56,6 +59,7 @@ const AddBlog = () => {
     setBlog((prev) => ({ ...prev, [field]: value }));
   };
 
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,7 +91,7 @@ const AddBlog = () => {
 
     addNewBlog(formData)
       .then((data) => {
-        console.log(data);
+        dispatch(addCountry(data));
       })
       .catch((err) => {
         console.log(err);

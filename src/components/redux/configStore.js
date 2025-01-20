@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   visaType: visaTypeSlice,
   visas: visaSlice,
   visaRequest: visaRequestsReducer,
-  BlogSlice:BlogSlice,
+  blogSlice: BlogSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

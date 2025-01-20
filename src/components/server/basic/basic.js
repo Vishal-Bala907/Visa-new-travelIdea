@@ -9,6 +9,14 @@ export const getAllVisas = async () => {
     throw err;
   }
 };
+export const getAllBlogCountryNames = async () => {
+  try {
+    const response = await apiClient.get(`/data/blogs/country-names`);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const getCountryWiseVisa = async (countryname) => {
   try {

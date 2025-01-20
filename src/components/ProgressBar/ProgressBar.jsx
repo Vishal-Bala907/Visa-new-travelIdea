@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 function ProgressBar({ name }) {
   const [progress, setProgress] = useState(0);
   const visas = useSelector((state) => state.visas.visas);
-  console.log("visas by date", visas);
+  // console.log("visas by date", visas);
 
   let highestWaitingTime = 0;
   visas.forEach((visa) => {
@@ -54,19 +54,19 @@ function ProgressBar({ name }) {
       setBackgroundImage("none");
     }
   }, []);
- useEffect(() => {
-   const interval = setInterval(() => {
-     setProgress((prev) => {
-       if (prev >= 100) {
-         clearInterval(interval);
-         return 100; 
-       }
-       return prev + 1; 
-     });
-   }, 50); // Update every 100ms (10% per second for 10 seconds)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return prev + 1;
+      });
+    }, 50); // Update every 100ms (10% per second for 10 seconds)
 
-   return () => clearInterval(interval); // Cleanup on unmount
- }, []);
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
   return (
     <div>
       <div

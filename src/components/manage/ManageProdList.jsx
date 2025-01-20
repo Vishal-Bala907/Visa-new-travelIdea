@@ -6,6 +6,7 @@ import { fetchAllVisaTypes } from "../server/admin/admin";
 import "../../app/ScrollBar.css";
 import GridLoaderSpinner from "../../components/spinner/GridLoaderSpinner";
 import NotFoundPage from "../not-found/NotFoundPage";
+import { ClipLoader } from "react-spinners";
 
 const ManageProdList = ({ filter, visas = [] }) => {
   const [data, setData] = useState(visas); // Start with all visas
@@ -79,6 +80,7 @@ const ManageProdList = ({ filter, visas = [] }) => {
         setLoading(false);
       });
   }, []);
+
   if (loading) {
     return <GridLoaderSpinner />;
   }

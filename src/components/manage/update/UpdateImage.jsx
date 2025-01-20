@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { updatImage } from "../../server/admin/admin";
+import { useDispatch } from "react-redux";
+import { addAllVisas } from "../../redux/slices/Visas";
 
-const UpdateImage = ({ visaId, currentImageUrl }) => {
+const UpdateImage = ({ setUpdating, visaId, currentImageUrl }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewImageUrl, setPreviewImageUrl] = useState(
     `${process.env.NEXT_PUBLIC_BASE_URL}/${currentImageUrl}`
@@ -17,9 +19,10 @@ const UpdateImage = ({ visaId, currentImageUrl }) => {
     }
   };
 
+  const dispatch = useDispatch();
   const handleUpdateClick = async () => {
     if (!selectedImage) return;
-
+    setUpdating(true);
     try {
       setIsUploading(true);
 
@@ -45,9 +48,14 @@ const UpdateImage = ({ visaId, currentImageUrl }) => {
       updatImage(imageUpdateDTO)
         .then((data) => {
           console.log(data);
+
+          dispatch(addAllVisas(data));
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          setUpdating(false);
         });
     } catch (error) {
       console.error("Error updating image:", error);

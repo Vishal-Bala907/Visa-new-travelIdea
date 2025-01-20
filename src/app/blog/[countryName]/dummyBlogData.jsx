@@ -1,9 +1,11 @@
 const dummyBlogData = [
   {
     id: 1,
-    bammerimage: "https://placehold.co/600x400",
-    img1: "https://placehold.co/600x400",
-    img2: "https://placehold.co/600x400",
+    countryName:"France",
+    bannerimg:
+      "https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68",
+    img1: "https://fastly.picsum.photos/id/11/2500/1667.jpg?hmac=xxjFJtAPgshYkysU_aqx2sZir-kIOjNR9vx0te7GycQ",
+    img2: "https://fastly.picsum.photos/id/13/2500/1667.jpg?hmac=SoX9UoHhN8HyklRA4A3vcCWJMVtiBXUg0W4ljWTor7s",
     blogHeading: "This is Blog One",
     blogDescription: "Small Content for blog one. This is a sample blog post.",
     blogContent: [
@@ -19,7 +21,7 @@ const dummyBlogData = [
   },
   {
     id: 2,
-    bammerimage: "https://placehold.co/600x400",
+    bannerimg: "https://placehold.co/600x400",
     img1: "https://placehold.co/600x400",
     img2: "https://placehold.co/600x400",
     blogHeading: "Exploring the Wonders of Nature",
@@ -40,7 +42,7 @@ const dummyBlogData = [
   },
   {
     id: 3,
-    bammerimage: "https://placehold.co/600x400",
+    bannerimg: "https://placehold.co/600x400",
     img1: "https://placehold.co/600x400",
     img2: "https://placehold.co/600x400",
     blogHeading: "The Future of Technology",
@@ -58,7 +60,7 @@ const dummyBlogData = [
   },
   {
     id: 4,
-    bammerimage: "https://placehold.co/600x400",
+    bannerimg: "https://placehold.co/600x400",
     img1: "https://placehold.co/600x400",
     img2: "https://placehold.co/600x400",
     blogHeading: "Culinary Adventures",
@@ -77,7 +79,7 @@ const dummyBlogData = [
   },
   {
     id: 5,
-    bammerimage: "https://placehold.co/600x400",
+    bannerimg: "https://placehold.co/600x400",
     img1: "https://placehold.co/600x400",
     img2: "https://placehold.co/600x400",
     blogHeading: "The Art of Photography",
@@ -96,7 +98,7 @@ const dummyBlogData = [
   },
   {
     id: 6,
-    bammerimage: "https://placehold.co/600x400",
+    bannerimg: "https://placehold.co/600x400",
     img1: "https://placehold.co/600x400",
     img2: "https://placehold.co/600x400",
     blogHeading: "Sustainable Living",
@@ -116,7 +118,7 @@ const dummyBlogData = [
   },
   {
     id: 7,
-    bammerimage: "https://placehold.co/600x400",
+    bannerimg: "https://placehold.co/600x400",
     img1: "https://placehold.co/600x400",
     img2: "https://placehold.co/600x400",
     blogHeading: "The World of Literature",
@@ -135,7 +137,7 @@ const dummyBlogData = [
   },
   {
     id: 8,
-    bammerimage: "https://placehold.co/600x400",
+    bannerimg: "https://placehold.co/600x400",
     img1: "https://placehold.co/600x400",
     img2: "https://placehold.co/600x400",
     blogHeading: "Fitness and Wellness",
@@ -154,7 +156,7 @@ const dummyBlogData = [
   },
   {
     id: 9,
-    bammerimage: "https://placehold.co/600x400",
+    bannerimg: "https://placehold.co/600x400",
     img1: "https://placehold.co/600x400",
     img2: "https://placehold.co/600x400",
     blogHeading: "Travel Diaries",
@@ -173,7 +175,7 @@ const dummyBlogData = [
   },
   {
     id: 10,
-    bammerimage: "https://placehold.co/600x400",
+    bannerimg: "https://placehold.co/600x400",
     img1: "https://placehold.co/600x400",
     img2: "https://placehold.co/600x400",
     blogHeading: "Innovations in Education",

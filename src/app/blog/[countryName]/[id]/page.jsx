@@ -1,8 +1,8 @@
-import React from 'react'
-import BlogPageTwo from './BlogPageTwo'
+import React from "react";
+import BlogPageTwo from "./BlogPageTwo";
 
-function page({params}) {
-const {id} = params;
+async function page({ params }) {
+  const { id } = await params;
   return (
     <div>
       <BlogPageTwo id={id} />
@@ -10,4 +10,4 @@ const {id} = params;
   );
 }
 
-export default page
+export default page;

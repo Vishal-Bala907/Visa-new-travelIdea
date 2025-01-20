@@ -2,10 +2,13 @@
 import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import {useSelector} from "react-redux"
+import { Provider, useDispatch } from "react-redux";
+import {addCountry} from '../redux/slices/BlogSlice'
+import store from "../redux/configStore";
 const Footer = () => {
 const items = useSelector((state)=> state.visas.visas )
 const countryNames = items.map((item)=> item.countyName).filter((country,index,self)=> self.indexOf(country) === index);
-
+ const dispatch = useDispatch();
 console.log("visas ->",countryNames)
   return (
     <footer className="bg-[#093258] text-white py-8">

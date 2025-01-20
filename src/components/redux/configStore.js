@@ -6,6 +6,7 @@ import userReducer from "./slices/UserSlice";
 import visaTypeSlice from "./slices/VisaTypeSlice";
 import visaSlice from "./slices/Visas";
 import visaRequestsReducer from "./slices/VisaRequest";
+import BlogSlice from "./slices/BlogSlice";
 
 const persistConfig = {
   key: "root",
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   visaType: visaTypeSlice,
   visas: visaSlice,
   visaRequest: visaRequestsReducer,
+  BlogSlice:BlogSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

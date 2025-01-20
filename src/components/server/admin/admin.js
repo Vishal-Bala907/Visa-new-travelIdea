@@ -48,3 +48,16 @@ export const updateVisa = async (visa) => {
     throw err;
   }
 };
+export const updatImage = async (imageData) => {
+  // console.log(visa);
+  try {
+    const response = await apiClient.put(
+      `/admin/visa/update/image`,
+      imageData,
+      {}
+    );
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

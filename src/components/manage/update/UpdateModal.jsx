@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { addAllVisas } from "../../redux/slices/Visas";
 import { ClipLoader } from "react-spinners";
+
 // import { transform } from "next/dist/build/swc/generated-native";
 
 const UpdateModal = ({
@@ -366,7 +367,7 @@ const UpdateModal = ({
       </Box>
 
       {/* Additional Components */}
-      <UpdateImage currentImageUrl={visa.bannerImage} />
+      <UpdateImage visaId={visa.id} currentImageUrl={visa.bannerImage} />
       <UpdateEmbassyFees initialData={visa.embassyFees} />
       {updating && (
         <div className="absolute top-[0%] left-[0%] w-[100%] h-[100%] bg-[#569bff38] z-50 flex justify-center align-center backdrop-blur-[10px]">

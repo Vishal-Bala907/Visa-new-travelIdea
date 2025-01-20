@@ -17,7 +17,7 @@ const Footer = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [countries]);
+  }, []);
 
   return (
     <footer className="bg-[#093258] text-white py-8">

@@ -87,7 +87,7 @@ const MakePayment = ({ setStage, id }) => {
     }
 
     const options = {
-      key: "rzp_test_eG9FMYxysaEFXV",
+      key: process.env.NEXT_PUBLIC_RAZORPAY_ID,
       amount: NetTotal * 100,
       currency: "INR",
       name: "TravelIdea",

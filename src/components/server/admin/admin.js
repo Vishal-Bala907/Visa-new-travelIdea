@@ -39,6 +39,19 @@ export const addNewVisa = async (visa) => {
     throw err;
   }
 };
+export const addNewBlog = async (blog) => {
+  // console.log(visa);
+  try {
+    const response = await apiClient.post(`/admin/visa/add-blog`, blog, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Automatically handled by FormData, but it's good to explicitly set it
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 export const updateVisa = async (visa) => {
   // console.log(visa);
   try {

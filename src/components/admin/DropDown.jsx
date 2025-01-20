@@ -15,6 +15,8 @@ const DropDown = () => {
       router.push("/dashboard"); // Navigate to /dsb
     } else if (selectedValue === "mng") {
       router.push("/manage");
+    } else if (selectedValue === "blog") {
+      router.push("/addblog");
     }
   };
 
@@ -37,6 +39,7 @@ const DropDown = () => {
         <MenuItem value={"add-visa"}>Add Visa</MenuItem>
         <MenuItem value={"dsb"}>Dashboard</MenuItem>
         <MenuItem value={"mng"}>Manage</MenuItem>
+        <MenuItem value={"blog"}>Blog</MenuItem>
       </Select>
     </FormControl>
   );

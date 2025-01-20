@@ -8,8 +8,11 @@ import {
   Grid2,
 } from "@mui/material";
 import { Add, Delete } from "@mui/icons-material";
+import { updateEmbassyFees } from "../../server/admin/admin";
+import { useDispatch } from "react-redux";
+import { addAllVisas } from "../../redux/slices/Visas";
 
-const UpdateEmbassyFees = ({ initialData }) => {
+const UpdateEmbassyFees = ({ visaId, setUpdating, initialData }) => {
   console.log(initialData);
   const [appointmentFees, setAppointmentFees] = useState(
     initialData.appointmentFees || 0
@@ -23,7 +26,7 @@ const UpdateEmbassyFees = ({ initialData }) => {
   };
 
   const handleAddFee = () => {
-    setFees([...fees, { id: Date.now(), minAge: 0, maxAge: 0, fees: 0 }]);
+    setFees([...fees, { minAge: 0, maxAge: 0, fees: 0 }]);
   };
 
   const handleDeleteFee = (index) => {
@@ -31,12 +34,23 @@ const UpdateEmbassyFees = ({ initialData }) => {
     setFees(updatedFees);
   };
 
+  const dispatch = useDispatch();
   const handleSubmit = () => {
+    setUpdating(true);
     const updatedData = {
       appointmentFees,
       fees,
     };
-    // onUpdateFees(updatedData);
+    updateEmbassyFees(visaId, updatedData)
+      .then((response) => {
+        dispatch(addAllVisas(response));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setUpdating(false);
+      });
   };
 
   return (

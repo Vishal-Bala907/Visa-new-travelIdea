@@ -61,3 +61,27 @@ export const updatImage = async (imageData) => {
     throw err;
   }
 };
+export const updateEmbassyFees = async (visaId, embassy) => {
+  // console.log(visa);
+  try {
+    const response = await apiClient.put(
+      `/admin/visa/update/fees/${visaId}`,
+      embassy,
+      {}
+    );
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+export const deleteVisa = async (visaId) => {
+  // console.log(visa);
+  try {
+    const response = await apiClient.delete(
+      `/admin/visa/update/delete/${visaId}`
+    );
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

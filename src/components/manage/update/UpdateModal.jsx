@@ -87,7 +87,7 @@ const UpdateModal = ({
       documents: selectedDocuments,
       tag: selectedTags,
     };
-    console.log(updatedVisa);
+    // console.log(updatedVisa);
 
     updateVisa(updatedVisa)
       .then((data) => {
@@ -367,8 +367,16 @@ const UpdateModal = ({
       </Box>
 
       {/* Additional Components */}
-      <UpdateImage visaId={visa.id} currentImageUrl={visa.bannerImage} />
-      <UpdateEmbassyFees initialData={visa.embassyFees} />
+      <UpdateImage
+        setUpdating={setUpdating}
+        visaId={visa.id}
+        currentImageUrl={visa.bannerImage}
+      />
+      <UpdateEmbassyFees
+        setUpdating={setUpdating}
+        visaId={visa.id}
+        initialData={visa.embassyFees}
+      />
       {updating && (
         <div className="absolute top-[0%] left-[0%] w-[100%] h-[100%] bg-[#569bff38] z-50 flex justify-center align-center backdrop-blur-[10px]">
           <div className="flex justify-center items-center flex-col gap-4 top-[50%]">

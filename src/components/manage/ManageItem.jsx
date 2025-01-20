@@ -1,9 +1,15 @@
+"use client";
 import { useRouter } from "next/navigation";
-import { MdUpdate } from "react-icons/md";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import React, { useEffect, useState } from "react";
 import UpdateModal from "./update/UpdateModal";
 import { FaPencil } from "react-icons/fa6";
+import { ClipLoader } from "react-spinners";
+import { deleteVisa } from "../server/admin/admin";
+import { useDispatch } from "react-redux";
+import { addAllVisas } from "../redux/slices/Visas";
 const tagOptions = [
   "Popular",
   "Visa in a week",
@@ -15,6 +21,37 @@ const tagOptions = [
 const ManageItem = ({ documentOptions, visaTypes, item }) => {
   const router = useRouter();
   const [update, setUpdate] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleDelete = (visaId) => {
+    confirmAlert({
+      title: "Confirm to Delete",
+      message: "Are you sure to do this.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            setDeleting(true);
+            deleteVisa(visaId)
+              .then((data) => {
+                dispatch(addAllVisas(data));
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+              .finally(() => {
+                setDeleting(false);
+              });
+          },
+        },
+        {
+          label: "No",
+          onClick: () => alert("Click No"),
+        },
+      ],
+    });
+  };
 
   return (
     <section>
@@ -75,6 +112,9 @@ const ManageItem = ({ documentOptions, visaTypes, item }) => {
             style={{
               fontSize: "1.5rem",
             }}
+            onClick={() => {
+              handleDelete(item.id);
+            }}
           />
         </section>
       </div>
@@ -87,6 +127,14 @@ const ManageItem = ({ documentOptions, visaTypes, item }) => {
           onClose={() => setModalOpen(false)}
           setUpdate={setUpdate}
         />
+      )}
+      {deleting && (
+        <div className="absolute top-[0%] left-[0%] w-[100%] h-[100%] bg-[#569bff38] z-50 flex justify-center align-center backdrop-blur-[10px]">
+          <div className="flex justify-center items-center flex-col gap-4 top-[50%]">
+            <ClipLoader color="#4d006d" size={100} speedMultiplier={1} />
+            <p>Deleting ...</p>
+          </div>
+        </div>
       )}
     </section>
   );
